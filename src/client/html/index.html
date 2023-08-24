@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>測試頁面-排灣傳奇夢境互動體驗</title>
+  <link rel="shortcut icon" href="/assets/icon/favicon.ico" />
+
+  <!-- 核心：Tocas UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.4/tocas.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tocas/4.2.4/tocas.min.js"></script>
+
+  <!-- 字體：Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="raw-canvas" class="sample desktop-:u-hidden" style="background-image:url('/assets/img/playing.png')">
+    <canvas id="cnv" class="hidden"></canvas>
+  </div>
+
+
+  <canvas id="game-canvas" class="hidden" width=300 height=200>您的瀏覽器不支援畫布功能</canvas>
+  <canvas id="control-canvas" class="hidden" width=300 height=200>您的瀏覽器不支援畫布功能</canvas>
+
+  <div class=" ranking hidden">
+    <table>
+      <thead>
+        <tr>
+          <th>排名</th>
+          <th>名稱</th>
+          <th>分數</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="delay hidden">0ms</div>
+
+  <!--玩家頁面-->
+  <div id="game-control" class="ts-container is-very-narrow hidden">
+    <div class="ts-wrap is-vertical">
+      <!--放置內容(頂部/個人名稱+卡牌數量)-->
+      <div id="top" class="ts-content is-horizontally-fitted">
+        <div class="ts-grid is-middle-aligned">
+          <div class="column is-fluid">
+            <div class="ts-box is-horizontal">
+              <div class="ts-content">
+                <span class="ts-avatar">
+                  <img id="userhead-top" src="/assets/img/heads/head.svg">
+                </span>
+              </div>
+              <div id="username-top" class="ts-header">
+                一個很酷的名稱
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="ts-box is-horizontal">
+              <span class="ts-image is-mini is-circle" style="background-color: bisque;">
+                <img src="/assets/img/cards.svg">
+              </span>
+              <div class="ts-content is-vertically-fitted">
+                <div class="ts-statistic">
+                  <div id="score-top" class="value">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--放置內容(頂部/個人名稱+收集數量)-->
+
+      <!--放置內容(卡牌圖片與說明)-->
+      <div id="card-info" class="ts-box">
+        <div class="ts-content ">
+          <div class="ts-center">
+            <div id="card-img" class="ts-image is-medium is-rounded ">
+              <img src="/assets/img/cards/事件-力里社事件.png">
+            </div>
+          </div>
+          <div class="ts-divider is-center-text">
+            <div id="raw-name" class="ts-text is-description">想放點什麼在這裡</div>
+          </div>
+          <div id="card-name" class="ts-header ts-center is-large">
+            標題。
+          </div>
+          <div id="description" class="ts-quote is-secondary">
+            一些文字的說明
+          </div>
+        </div>
+      </div>
+      <!--放置內容(卡牌圖片與說明)-->
+    </div>
+
+    <!--操控按鍵-->
+    <div id="keys" class="tk-bottom ts-content">
+      <div class="ts-center">
+        <div class="keys">
+          <button id="move-top" class="key" data-key="ArrowUp">
+            <svg viewBox="0 0 320 512" width="100" title="angle-up">
+              <path
+                d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z" />
+            </svg>
+          </button>
+          <button id="move-left" class="key" data-key="ArrowLeft">
+            <svg viewBox="0 0 256 512" width="100" title="angle-left">
+              <path
+                d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z" />
+            </svg>
+          </button>
+          <button id="move-buttom" class="key" data-key="ArrowDown">
+            <svg viewBox="0 0 320 512" width="100" title="angle-down">
+              <path
+                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+            </svg>
+          </button>
+          <button id="move-right" class="key" data-key="ArrowRight">
+            <svg viewBox="0 0 256 512" width="100" title="angle-right">
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--操控按鍵-->
+  </div>
+  <!--玩家頁面-->
+
+
+
+  <!--加入遊戲-->
+  <div id="join" class=" ts-container is-very-narrow">
+    <!--標題列-->
+    <div class="ts-content">
+    </div>
+    <div class=" ts-content">
+      <div class="ts-image">
+        <img src="/assets/img/標題.png">
+      </div>
+      <div class="ts-header is-large is-heavy">
+        進入秋古的夢境，探索排灣文化傳奇
+      </div>
+    </div>
+    <!--標題列-->
+
+    <!--輸入資料-->
+    <div class="ts-segment u-top-spaced-large ts-wrap is-vertical">
+
+      <div id="step-name" class="ts-wrap is-vertical">
+        <div class="ts-box tk-step is-horizontal">
+          <div class="ts-content ts-image is-start-spaced is-mini">
+            <img src="/assets/img/balls/01.svg">
+          </div>
+          <div class="ts-content ts-header">輸入自己的名稱</div>
+        </div>
+        <div class="ts-input is-start-icon is-circular">
+          <span class="ts-icon is-user-icon"></span>
+          <input id="username-input" type="text" placeholder="名稱">
+        </div>
+      </div>
+
+      <div id="step-family" class=" ts-wrap is-vertical"">
+          <div class=" ts-divider"></div>
+      <div class="ts-box tk-step is-horizontal ">
+        <div class="ts-content ts-image is-mini">
+          <img src="/assets/img/balls/02.svg">
+        </div>
+        <div class="ts-content ts-header">讓命運決定你的氏族吧</div>
+      </div>
+      <div class="ts-center">
+        <div id="bead-img" class="ts-image is-rounded is-mini is-centered">
+          <img src="/assets/img/beads/琉璃珠-1.png">
+        </div>
+        <div id="family-img" class="hidden ts-image is-rounded is-small is-centered">
+          <img src="/assets/img/cards/氏族-大地種子.png">
+        </div>
+
+        <div id="step-head" class="hidden">
+          <div id="head-switch" class="ts-divider is-center-text">
+            <div class="ts-text is-description">▼&emsp;選擇一個頭貼吧&emsp;▼</div>
+          </div>
+          <div class="ts-grid ">
+            <div class="column">
+              <button id="head-l-button">
+                <div id="head-l-img" class="ts-image is-rounded is-small is-centered">
+                  <img src="/assets/img/heads/大地種子_左.svg">
+                </div>
+              </button>
+            </div>
+            <div class="column">
+              <button id="head-r-button">
+                <div id="head-r-img" class="ts-image is-rounded is-small is-centered">
+                  <img src="/assets/img/heads/大地種子_右.svg">
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="ts-content">
+          <button id="bead-button" class="ts-button is-circular is-outlined">擲骰</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="step-connect" class="ts-wrap is-vertical">
+      <div class="ts-divider"></div>
+      <div class="ts-box tk-step is-horizontal">
+        <div class="ts-content ts-image is-start-spaced is-mini">
+          <img src="/assets/img/balls/03.svg">
+        </div>
+        <div class="ts-content ts-header">進入夢境收集卡牌</div>
+      </div>
+      <button id="play-button" class="ts-button is-circular">開始探索</button>
+    </div>
+  </div>
+
+  </div>
+  <div class="ts-content"></div>
+  </div>
+  <!--輸入資料-->
+
+  <!--加入遊戲-->
+
+  <!--
+  <div id="home">
+    <h1>球球作战</h1>
+    <p class="text-secondary">一个简简单单的射击游戏</p>
+    <hr>
+
+    <div class="content">
+      <div class="key">
+        <p>
+          <code>W</code> 向上移动
+        </p>
+        <p>
+          <code>S</code> 向下移动
+        </p>
+        <p>
+          <code>A</code> 向左移动
+        </p>
+        <p>
+          <code>D</code> 向右移动
+        </p>
+        <p>
+          <code>鼠标左键</code> 发射子弹
+        </p>
+
+      </div>
+      <div class="play hidden">
+        <input type="text" id="username-input" placeholder="名称">
+        <button id="play-button-old" class="ts-button is-circular">开始游戏</button>
+      </div>
+      <div class="connect">
+        <p>连接服务器中...</p>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <div id="disconnect-modal" class="ts-modal">
+    <div class="content">
+      <div class="ts-content is-center-aligned is-vertically-padded">
+        <div class="ts-header is-massive is-center-aligned is-start-icon">
+          <span class="ts-icon is-plug-circle-xmark-icon"></span>
+          您已離線QQ
+        </div>
+      </div>
+      <div class="ts-divider"></div>
+      <div class="ts-content is-tertiary">
+        <button id="reconnect-button" class="ts-button is-fluid is-outlined u-top-spaced-large">重新加入探索</button>
+      </div>
+    </div>
+  </div>
+
+  <!--網頁底部-->
+  <footer id="footer" class="footer">
+    <div class="ts-content is-secondary u-dark">
+      <div class="ts-container is-very-narrow">
+        <div class="ts-grid is-evenly-divided mobile:is-stacked ">
+          <div class="column">
+            <div class="ts-header is-heavy">排灣傳奇夢境互動體驗</div>
+            <div class="ts-text is-description">
+              ©范特喜微創文化 2023
+              <br>
+              由 ToodoLab 謝祥紫 製作。
+            </div>
+          </div>
+
+          <div class="column is-end-aligned ">
+            <a href="https://www.facebook.com/GreenRay.2013" class="ts-image is-small">
+              <img src="/assets/img/GREENRAY_LOGO.svg" alt="范特喜 綠光計劃 GREEN RAY PLAN">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--網頁底部-->
+</body>
+
+</html>
