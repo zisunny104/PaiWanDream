@@ -100,7 +100,7 @@ class Game {
         let card = cards[i];
         let player = players[j];
 
-        if (player.distanceTo(cards) <= Constants.PLAYER.RADUIS + Constants.PROP.RADUIS * 6) {
+        if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + Constants.PROP.RADUIS * 6) {
           //cards.isOver = true;
           player.catchCard(cards);
           break;
