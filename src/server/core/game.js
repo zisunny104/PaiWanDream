@@ -1,5 +1,6 @@
 const xss = require("xss");
 const Constants = require("../../shared/constants");
+const Utils = require("../../shared/utils");
 const Player = require("../objects/player");
 const Prop = require("../objects/prop");
 const Card = require("../objects/card");
@@ -155,8 +156,8 @@ class Game {
   joinGame(socket, username) {
     this.sockets[socket.id] = socket;
 
-    const x = 1700;
-    const y = 930;
+    const x = 1700 + (Utils.getRandom(-10, 10));
+    const y = 930 + (Utils.getRandom(-30, 10));
     this.players[socket.id] = new Player({
       id: socket.id,
       username,
@@ -188,11 +189,7 @@ class Game {
         case 'bullet':
           player.fire = item.data;
           break;
-        //TODO:del
-        case 'card':
-          console.log(item.data);
-          //player.card_list.push(item.data);
-          break;
+
       }
     }
   }

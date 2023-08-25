@@ -1,4 +1,4 @@
-import { MAP_SIZE, PLAYER, BULLET, PROP, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
+import { CARD, PLAYER, BULLET, PROP, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
 import { getAsset } from './asset';
 import { getCurrentState } from './state';
 import { $, setCookie, getCookie, getRandom, sleep } from './util';
@@ -6,12 +6,9 @@ import { $, setCookie, getCookie, getRandom, sleep } from './util';
 const cnv = $('#cnv')
 const ctx = cnv.getContext('2d')
 
-var baseline_h = 0;
-var baseline_w = 0;
-
 function setCanvasSize() {
   cnv.width = 1920;
-  cnv.height = 1080;
+  cnv.height = 1200;
   //cnv.classList.remove("hidden");
   cnv.classList.add("sample");
 }
@@ -28,9 +25,9 @@ function render() {
 
   clearCanvas();//確保畫布背景為空
 
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(0, 0, MAP_SIZE_W, MAP_SIZE_H);
+  //ctx.strokeStyle = 'black';
+  //ctx.lineWidth = 1;
+  //ctx.strokeRect(0, 0, MAP_SIZE_W, MAP_SIZE_H);
 
   bullets.map(renderBullet.bind(null, me));
   props.map(renderProp.bind(null, me));
@@ -82,6 +79,20 @@ function renderCard(me, card) {
     x, y,
     PROP.RADUIS * 6,
     PROP.RADUIS * 7
+  )
+  ctx.restore();
+}
+
+function debugCard(x, y) {
+  const img = new Image();
+  img.src = "/assets/img/cards/" + file_name + ".png";
+
+  ctx.save();
+  ctx.drawImage(
+    img,
+    x, y,
+    CARD.SIZE_W,
+    CARD.SIZE_H
   )
   ctx.restore();
 }

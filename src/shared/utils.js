@@ -1,4 +1,36 @@
-function csvToArray(result) {
+exports.setCookie = function setCookie(cookieName, cookieValue, expiryDate) {
+    var d = new Date();
+    d.setTime(d.getTime() + (expiryDate * 24 * 60 * 60 * 1000));
+    var expires = "; expires=" + d.toUTCString();
+    if (expiryDate == -1) {
+        expires = "";
+    }
+    document.cookie = cookieName + "=" + cookieValue + expires + "; path=/";
+}
+
+exports.getCookie = function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+}
+
+exports.getRandom = function getRandom(a, b) {
+    let max = Math.max(a, b);
+    let min = Math.min(a, b);
+    return parseInt(Math.random() * (max - min)) + min;
+}
+
+exports.sleep = function sleep(millisecond) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve()
+        }, millisecond)
+    })
+}
+
+/*
+
+export function csvToArray(result) {
     let resultArray = [];
     result.split("\n").forEach(function (row) {
         if (row) {
@@ -13,7 +45,7 @@ function csvToArray(result) {
     return resultArray;
 }
 
-function arrayToTable(result, keyName) {
+export function arrayToTable(result, keyName) {
     var array = csvToArray(result); //this is where the csv array will be
     let content = "";
     let count = 0;
@@ -40,7 +72,7 @@ function arrayToTable(result, keyName) {
     return content;
 }
 
-function createTable() {
+export function createTable() {
     let csvFile = document.getElementById("csvFile");
     let reader = new FileReader();
     let f = csvFile.files[0];
@@ -50,7 +82,7 @@ function createTable() {
     reader.readAsText(f);
 }
 
-function filterTable(input, table, index) {
+export function filterTable(input, table, index) {
     // Declare variables
     let filter, tr, td, i, txtValue;
     filter = input.value;
@@ -69,8 +101,8 @@ function filterTable(input, table, index) {
     }
 }
 
-function filterTable_data() {
+export function filterTable_data() {
     let input = document.getElementById("filterInput_data");
     let table = document.getElementById("dataTable");
     filterTable(input, table, 0);
-}
+}*/

@@ -12,10 +12,6 @@ body {
     display: none !important;
 }
 
-canvas {
-    border: 1px solid black;
-}
-
 .abuttom {
     position: absolute;
     width: 100%;
@@ -24,7 +20,7 @@ canvas {
 
 .sample {
     /*padding-top: 56.25%;*/
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1920 / 1200;
     width: 100%;
     /*background-image: url("/assets/img/playing.png");*/
     background-size: contain;

@@ -18,15 +18,23 @@
 </head>
 
 <body>
-  <div id="raw-canvas" class="sample desktop-:u-hidden" style="background-image:url('/assets/img/playing.png')">
-    <canvas id="cnv" class="hidden"></canvas>
+  <div id="raw-canvas" class="sample desktop-:u-hidden" style="background-image:url('/assets/img/play.png')">
+    <canvas id="cnv" class="hidden">您的瀏覽器不支援畫布功能</canvas>
+    <div class="ts-grid " style="width: 100%; position:absolute; bottom: 0; ">
+      <div class="column is-4-wide"></div>
+      <div class="column is-fluid"></div>
+      <div class="column is-4-wide">
+        <div class="ts-image">
+          <img class=" building" src="/assets/img/建築.png">
+        </div>
+      </div>
+    </div>
   </div>
 
-
-  <canvas id="game-canvas" class="hidden" width=300 height=200>您的瀏覽器不支援畫布功能</canvas>
-  <canvas id="control-canvas" class="hidden" width=300 height=200>您的瀏覽器不支援畫布功能</canvas>
-
   <div class=" ranking hidden">
+    <p>
+      Mouse pos: <b><span id="mouse-pos"></span></b>
+    </p>
     <table>
       <thead>
         <tr>
@@ -41,15 +49,7 @@
   </div>
   <div class="delay hidden">0ms</div>
 
-  <div class="ts-grid " style="width: 100%; position:absolute; bottom: 0; ">
-    <div class="column is-4-wide"></div>
-    <div class="column is-fluid"></div>
-    <div class="column is-4-wide">
-      <div class="ts-image">
-        <img class=" building" src="/assets/img/建築.png">
-      </div>
-    </div>
-  </div>
+
 
   <!--玩家頁面-->
   <div id="game-control" class="ts-container is-very-narrow hidden">

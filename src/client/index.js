@@ -169,3 +169,18 @@ function showCardInfo(card) {
   raw_name = card.raw_name;
   description = card.description;
 }
+
+const mousePosText = document.getElementById('mouse-pos');
+
+window.addEventListener('mousemove', (event) => {
+  var { x, y } = getMousePos($('#cnv'), event);
+  mousePosText.textContent = `(${x}, ${y})`;
+});
+
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+    y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+  };
+}
