@@ -17,7 +17,7 @@ class Game {
     this.createCardTime = 0;
     setInterval(this.update.bind(this), 1000 / 60);
   }
-
+  c
   update() {
     const now = Date.now();
     const dt = (now - this.lastUpdateTime) / 1000;

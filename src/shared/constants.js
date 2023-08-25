@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
   PLAYER: {
     MAX_HP: 100,
-    SPEED: 50,
+    SPEED: 150,
     RADUIS: 50,
     FIRE: .1
   },
@@ -23,7 +23,7 @@ module.exports = Object.freeze({
 
   MAP_SIZE: 5000,
   MAP_SIZE_W: 1920,//3840,
-  MAP_SIZE_H: 1080,//2160,
+  MAP_SIZE_H: 1200,//2160,
 
   MSG_TYPES: {
     JOIN_GAME: 1,

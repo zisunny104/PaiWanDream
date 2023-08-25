@@ -33,13 +33,15 @@ class Card extends Item {
         }
     }
 
-    remove(player) {
+
+
+    /*remove(player) {
         switch (this.type) {
             case 'speed':
                 player.speed -= 500;
                 break;
         }
-    }
+    }*/
 
 
     update(dt) {

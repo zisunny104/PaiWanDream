@@ -15,7 +15,7 @@ const username_input = document.querySelector('#username-input');
 const play_button = document.querySelector('#play-button');
 
 const join = document.querySelector("#join");
-const footer = document.querySelector('footer');
+const footer = document.querySelector('#footer');
 const game_canvas = document.querySelector('#game-canvas');
 const game_control = document.querySelector('#game-control');
 const step_head = document.querySelector('#step-head');
@@ -64,7 +64,7 @@ Promise.all([
     setUserTop();//設定遊玩頁面上方玩家資訊
     join.classList.add(HIDDEN);//關閉加入畫面
     game_control.classList.remove(HIDDEN);//開啟遊戲控制畫面
-    footer.classList.remove(HIDDEN);//關閉底部
+    footer.classList.add(HIDDEN);//關閉底部
 
     $('#cnv').classList.remove(HIDDEN);
     $('.ranking').classList.remove(HIDDEN);
