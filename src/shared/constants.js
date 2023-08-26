@@ -18,6 +18,7 @@ module.exports = Object.freeze({
     SIZE_H: 305,
     SIZE_B_W: 300,
     SIZE_B_H: 245,
+    CREATE_TIME: 300,
   },
 
   PROP: {

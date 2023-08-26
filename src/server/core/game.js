@@ -64,7 +64,6 @@ class Game {
     this.cards = this.cards.filter(item => !item.isOver)
 
     if (this.createCardTime <= 0) {
-      this.createCardTime = Constants.PROP.CREATE_TIME;
       card_pos_id.forEach(pid => {
         if (pid < 12) {
           this.cards.push(new Card(card_pos_x[pid], card_pos_y[pid],
@@ -82,6 +81,8 @@ class Game {
             "危機-靈魂馘取"));
         }
       });
+      this.createCardTime = Constants.CARD.CREATE_TIME;
+      this.cards = [];
     }
 
     Object.keys(this.players).map(playerID => {
