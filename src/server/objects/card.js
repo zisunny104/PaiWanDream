@@ -6,10 +6,15 @@ class Card extends Item {
     constructor(x, y, type, card_name, raw_name, description, file_name) {
         x = x + getRandom(0, 5);
         y = y + getRandom(0, 5);
+        var w = Constants.CARD.SIZE_W;
+        var h = Constants.CARD.SIZE_H;
+        if (type == "危機") {
+            w = Constants.CARD.SIZE_B_W;
+            h = Constants.CARD.SIZE_B_H;
+        }
         super({
             x, y,
-            w: Constants.CARD.SIZE_W,
-            h: Constants.CARD.SIZE_H,
+            w, h,
         });
 
         this.isOver = false;

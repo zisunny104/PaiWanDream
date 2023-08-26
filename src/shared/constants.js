@@ -16,6 +16,8 @@ module.exports = Object.freeze({
   CARD: {
     SIZE_W: 240,
     SIZE_H: 305,
+    SIZE_B_W: 300,
+    SIZE_B_H: 245,
   },
 
   PROP: {

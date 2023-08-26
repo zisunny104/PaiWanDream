@@ -43,6 +43,18 @@ body {
     /* animate transform */
 }
 
+.drop-shadow {
+    -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.7))
+}
+
+#standby {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
 .keys {
     display: grid;
     width: 18rem;

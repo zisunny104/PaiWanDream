@@ -1,5 +1,5 @@
-import { CARD, PLAYER, BULLET, PROP, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
-import { getAsset } from './asset';
+import { CARD, PLAYER, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
+
 import { getCurrentState } from './state';
 import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 
@@ -69,7 +69,7 @@ function clearCanvas() {
 }*/
 
 function renderCard(me, card) {
-  const { x, y, type, file_name } = card;
+  const { x, y, w, h, file_name } = card;
   const img = new Image();
   img.src = "/assets/img/cards/" + file_name + ".png";
 
@@ -77,8 +77,7 @@ function renderCard(me, card) {
   ctx.drawImage(
     img,
     x, y,
-    CARD.SIZE_W,
-    CARD.SIZE_H
+    w, h
   )
   ctx.restore();
 }
@@ -99,7 +98,10 @@ function renderCard(me, card) {
 }*/
 
 function renderPlayer(me, player) {
-  const { x, y } = player;
+  const { x, y, username } = player;
+  if (username == "debug") {
+    return;
+  }
 
   const img = new Image();
   img.src = "/assets/img/heads/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
@@ -132,7 +134,7 @@ function renderPlayer(me, player) {
 
   ctx.fillStyle = 'white'
   ctx.textAlign = 'center';
-  ctx.font = "50"
+  ctx.font = "50px"
   ctx.fillText(player.username, x, y - PLAYER.RADUIS - 16)
 
   ctx.fillText("(" + x + "--" + y + ")", x, y - PLAYER.RADUIS - 32)
@@ -172,6 +174,16 @@ export function updateRanking(data) {
       <tr>
     `
   })
-
   document.querySelector('.ranking table tbody').innerHTML = str;
+}
+
+export function updateStandby() {
+  const { others } = getCurrentState();
+  var dom = document.querySelector('#standby');
+  //檢測無人狀態顯示待機畫面
+  if (others.length < 1) {
+    dom.classList.remove("hidden");
+  } else {
+    dom.classList.add("hidden");
+  }
 }

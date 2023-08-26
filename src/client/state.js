@@ -1,10 +1,10 @@
-import { updateRanking } from "./render";
+import { updateRanking, updateStandby } from "./render";
 
 const gameUpdates = [];
 
 export function processGameUpdate(update) {
   gameUpdates.push(update)
-
+  updateStandby();
   updateRanking(update.leaderboard)
 }
 

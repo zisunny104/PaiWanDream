@@ -20,12 +20,7 @@ class Player extends Item {
     this.hp = Constants.PLAYER.MAX_HP;
     this.speed = Constants.PLAYER.SPEED;
     this.score = 0;
-    /*
-        this.buffs = [];
-        // 开火
-        this.fire = false;
-        this.fireMouseDir = 0;
-        this.fireTime = 0;*/
+
   }
 
   update(dt) {

@@ -1,5 +1,4 @@
 import { emitControl } from "./networking";
-import { setCookie } from "../shared/utils";
 
 const keys = document.querySelectorAll("[data-key]");
 
@@ -104,60 +103,12 @@ function onKeyup(ev) {
   }
 }
 
-/*
-function getMouseDir(ev) {
-  const dir = Math.atan2(ev.clientX - window.innerWidth / 2, ev.clientY - window.innerHeight / 2);
-  return dir;
-}
-
-
-function onMousemove(ev) {
-  if (ev.button === 0) {
-    emitControl({
-      action: 'dir',
-      data: getMouseDir(ev)
-    })
-  }
-}
-
-function onMousedown(ev) {
-  if (ev.button === 0) {
-    emitControl({
-      action: 'bullet',
-      data: true
-    })
-  }
-}
-
-function onMouseup(ev) {
-  if (ev.button === 0) {
-    emitControl({
-      action: 'bullet',
-      data: false
-    })
-  }
-}
- */
-
-function onMousedown(ev) {
-  if (ev.button === 0) {
-    setCookie("card-pos",)
-  }
-}
-
-
 export function startCapturingInput() {
   window.addEventListener('keydown', onKeydown);
   window.addEventListener('keyup', onKeyup);
-  window.addEventListener('mousedown', onMousedown)
-  window.addEventListener('mousemove', onMousemove)
-  window.addEventListener('mouseup', onMouseup)
 }
 
 export function stopCapturingInput() {
   window.removeEventListener('keydown', onKeydown);
   window.removeEventListener('keyup', onKeyup);
-  window.removeEventListener('mousedown', onMousedown)
-  window.addEventListener('mousemove', onMousemove)
-  window.removeEventListener('mouseup', onMouseup)
 }
