@@ -18,8 +18,9 @@
 </head>
 
 <body>
-  <div id="game-canvas" class="sample desktop-:u-hidden" style="background-image:url('/assets/img/play.png')">
-    <canvas id="cnv" class="hidden">您的瀏覽器不支援畫布功能</canvas>
+  <!--遊戲畫面-->
+  <div id="game-canvas" class="sample desktop-:u-hidden hidden" style="background-image:url('/assets/img/play.png')">
+    <canvas id="cnv" class="">您的瀏覽器不支援畫布功能</canvas>
     <div class="ts-grid " style="width: 100%; position:absolute; bottom: 0; ">
       <div class="column is-4-wide"></div>
       <div class="column is-fluid"></div>
@@ -29,22 +30,22 @@
         </div>
       </div>
     </div>
+    <div class=" ranking ">
+      <table>
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>名稱</th>
+            <th>分數</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <div class="delay ">0ms</div>
   </div>
-
-  <div class=" ranking hidden">
-    <table>
-      <thead>
-        <tr>
-          <th>排名</th>
-          <th>名稱</th>
-          <th>分數</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
-  <div class="delay hidden">0ms</div>
+  <!--遊戲畫面-->
 
   <!--待機畫面-->
   <img id="standby" class="drop-shadow hidden" src="/assets/img/左半說明.gif">

@@ -1,5 +1,4 @@
 import { CARD, PLAYER, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
-
 import { getCurrentState } from './state';
 import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 
@@ -9,7 +8,6 @@ const ctx = cnv.getContext('2d')
 function setCanvasSize() {
   cnv.width = MAP_SIZE_W;
   cnv.height = MAP_SIZE_H;
-  //cnv.classList.remove("hidden");
   cnv.classList.add("sample");
 }
 
@@ -18,61 +16,29 @@ setCanvasSize();
 window.addEventListener('resize', setCanvasSize)
 
 function render() {
-  const { me, others, cards } = getCurrentState();//bullets, props,
+  const { me, others, cards } = getCurrentState();
   if (!me) {
     return;
   }
 
   clearCanvas();//確保畫布背景為空
-
-  //ctx.strokeStyle = 'black';
-  //ctx.lineWidth = 1;
-  //ctx.strokeRect(0, 0, MAP_SIZE_W, MAP_SIZE_H);
-
-  //bullets.map(renderBullet.bind(null, me));
-  //props.map(renderProp.bind(null, me));
   cards.map(renderCard.bind(null, me));
-
   renderPlayer(me, me);
   others.forEach(renderPlayer.bind(null, me));
 }
 
 function clearCanvas() {
-  var context = ctx;
-  var canvas = cnv;
-
-  context.save();
-
-  context.setTransform(1, 0, 0, 1, 0, 0);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  context.restore();
-}
-
-/*function renderProp(me, prop) {
-  const { x, y, type } = prop;
-  //var file_name = "能力-多樣性耕種";
-  //const img = new Image();
-  //img.src = "/assets/img/cards/" + file_name + ".png";
 
   ctx.save();
-  ctx.drawImage(
-    getAsset(`${type}.svg`),
-    //baseline_w + x - me.x,
-    //baseline_h + y - me.y,
-    //img,
-    x, y,
-    PROP.RADUIS * 5,
-    PROP.RADUIS * 6
-  )
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
   ctx.restore();
-}*/
+}
 
 function renderCard(me, card) {
   const { x, y, w, h, file_name } = card;
   const img = new Image();
   img.src = "/assets/img/cards/" + file_name + ".png";
-
   ctx.save();
   ctx.drawImage(
     img,
@@ -82,29 +48,14 @@ function renderCard(me, card) {
   ctx.restore();
 }
 
-/*function renderBullet(me, bullet) {
-  const { x, y, rotate } = bullet;
-  ctx.save();
-  ctx.translate(x, y)
-  ctx.rotate(Math.PI / 180 * rotate)
-  ctx.drawImage(
-    getAsset('bullet.svg'),
-    -BULLET.RADUIS,
-    -BULLET.RADUIS,
-    BULLET.RADUIS * 2,
-    BULLET.RADUIS * 2
-  )
-  ctx.restore();
-}*/
-
 function renderPlayer(me, player) {
-  const { x, y, username } = player;
+  const { x, y, username, cards } = player;
   if (username == "debug") {
     return;
   }
 
   const img = new Image();
-  img.src = "/assets/img/heads/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
+  img.src = "/assets/img/body/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
   ctx.save();
   ctx.translate(x, y);
   ctx.drawImage(
@@ -112,7 +63,7 @@ function renderPlayer(me, player) {
     - PLAYER.RADUIS,
     - PLAYER.RADUIS,
     PLAYER.RADUIS * 2,
-    PLAYER.RADUIS * 2
+    PLAYER.RADUIS * 4
   )
   ctx.restore();
 
@@ -134,22 +85,26 @@ function renderPlayer(me, player) {
 
   ctx.fillStyle = 'white'
   ctx.textAlign = 'center';
-  ctx.font = "50px"
+  ctx.font = "30px Arial"
   ctx.fillText(player.username, x, y - PLAYER.RADUIS - 16)
 
-  ctx.fillText("(" + x + "--" + y + ")", x, y - PLAYER.RADUIS - 32)
-
-  ctx.fillText(player.cards, x, y - PLAYER.RADUIS - 48)
-
-  //TODO:人物底部放卡片
-  /*player.buffs.map((buff, i) => {
+  /*
+  player.cards.map(card => {
+    const img = new Image();
+    img.src = "/assets/img/cards/" + card.file_name + ".png";
+    var w = CARD.SIZE_W;
+    var h = CARD.SIZE_H;
+    if (card.type == "危機") {
+      w = CARD.SIZE_B_W;
+      h = CARD.SIZE_B_H;
+    }
     ctx.drawImage(
-      getAsset(`document.querySelector{buff.type}.svg`),
+      img,
       x - PLAYER.RADUIS + i * 22,
       y + PLAYER.RADUIS + 16,
-      20, 20
-    )
-  })*/
+      w / 10, h / 10
+    );
+  });*/
 }
 
 let renderInterval = null;

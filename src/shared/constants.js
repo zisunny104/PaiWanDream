@@ -25,9 +25,8 @@ module.exports = Object.freeze({
     RADUIS: 30
   },
 
-  MAP_SIZE: 5000,
-  MAP_SIZE_W: 1920,//3840,
-  MAP_SIZE_H: 1200,//2160,
+  MAP_SIZE_W: 1920,
+  MAP_SIZE_H: 1200,
 
   MSG_TYPES: {
     JOIN_GAME: 1,

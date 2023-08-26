@@ -3,14 +3,17 @@ const Constants = require("../../shared/constants");
 const Utils = require("../../shared/utils");
 const Player = require("../objects/player");
 const Card = require("../objects/card");
+const Prop = require("../objects/prop");
 
 class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
+    this.props = [];
     this.cards = [];
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
+    this.createPropTime = 0;
     this.createCardTime = 0;
     setInterval(this.update.bind(this), 1000 / 60);
   }
@@ -20,12 +23,12 @@ class Game {
     const dt = (now - this.lastUpdateTime) / 1000;
     this.lastUpdateTime = now;
 
-    /*this.createPropTime -= dt;
+    this.createPropTime -= dt;
     this.props = this.props.filter(item => !item.isOver)
     if (this.createPropTime <= 0 && this.props.length < 10) {
       this.createPropTime = Constants.PROP.CREATE_TIME;
       this.props.push(new Prop('speed'));
-    }*/
+    }
 
     const card_pos_id = [0, 1, 2, 3,
       4, 5, 6,
@@ -79,16 +82,9 @@ class Game {
       });
     }
 
-    /*Object.keys(this.players).map(playerID => {
-     const player = this.players[playerID]
-     const bullet = player.update(dt)
-     if (bullet) {
-       this.bullets.push(bullet);
-     }
-   })*/
-
     //碰撞檢測
-    this.collisionsCard(Object.values(this.players), this.cards)
+    this.collisionsCard(Object.values(this.players), this.cards);
+    this.collisionsProp(Object.values(this.players), this.props);
 
     Object.keys(this.sockets).map(playerID => {
       const socket = this.sockets[playerID]
@@ -120,33 +116,27 @@ class Game {
         let player = players[j];
 
         if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + card.h) {
-          //cards.isOver = true;
-          //player.catchCard(cards);
+          card.add(player);
           break;
         }
       }
     }
   }
 
-  /*collisionsBullet(players, bullets) {
-    for (let i = 0; i < bullets.length; i++) {
+  collisionsProp(players, props) {
+    for (let i = 0; i < props.length; i++) {
       for (let j = 0; j < players.length; j++) {
-        let bullet = bullets[i];
+        let prop = props[i];
         let player = players[j];
 
-        if (bullet.parentID !== player.id
-          && player.distanceTo(bullet) <= Constants.PLAYER.RADUIS + Constants.BULLET.RADUIS
-        ) {
-          bullet.isOver = true;
-          player.takeBulletDamage();
-          if (player.hp <= 0) {
-            this.players[bullet.parentID].score++;
-          }
+        if (player.distanceTo(prop) <= Constants.PLAYER.RADUIS + Constants.PROP.RADUIS) {
+          prop.isOver = true;
+          player.pushBuff(prop);
           break;
         }
       }
     }
-  }*/
+  }
 
   createUpdate(player) {
     const otherPlayer = Object.values(this.players).filter(
@@ -158,6 +148,7 @@ class Game {
       me: player.serializeForUpdate(),
       others: otherPlayer,
       leaderboard: this.getLeaderboard(),
+      props: this.props.map(prop => prop.serializeForUpdate()),
       cards: this.cards.map(card => card.serializeForUpdate())
     }
   }
@@ -204,7 +195,6 @@ class Game {
         case 'bullet':
           player.fire = item.data;
           break;
-
       }
     }
   }

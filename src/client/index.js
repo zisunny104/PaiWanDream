@@ -33,48 +33,35 @@ var family = "預設氏族";
 
 const HIDDEN = "hidden";
 
-var debug = false;
-
 Promise.all([
   connect(gameOver),
   downloadAssets()
 ]).then(() => {
-  if (debug) {
-    document.querySelector("body").style.overflow = HIDDEN;
-    play("debug");
-    document.querySelector('#cnv').classList.remove(HIDDEN);
-    document.querySelector('.ranking').classList.remove(HIDDEN);
-    document.querySelector('.delay').classList.remove(HIDDEN);
+  randBead();//隨機琉璃珠
+  username_input.focus();
+  play_button.onclick = () => {
+    username = username_input.value;
+    username = username.replace(/\s*/g, '');
+    family = getCookie('family');
+    if (username === '') {
+      alert('請輸入名稱!');
+      return;
+    }
+    if (family === "預設氏族") {
+      alert('請擲骰選擇氏族!');
+      return;
+    }
+    setCookie('username', username);
+    play(username);
 
-    join.classList.add(HIDDEN);
-    game_control.classList.add(HIDDEN);
-    footer.classList.add(HIDDEN);
+    setUserTop();//設定遊玩頁面上方玩家資訊
+    join.classList.add(HIDDEN);//關閉加入畫面
+    game_control.classList.remove(HIDDEN);//開啟遊戲控制畫面
+    footer.classList.add(HIDDEN);//關閉底部
+    game_canvas.classList.remove(HIDDEN);//開啟遊戲畫面
 
     startRendering();
     startCapturingInput();
-
-  } else {
-    if (getCookie("username") != null) {
-      username = getCookie("username");
-    } else {
-      randBead();//隨機琉璃珠
-      username_input.focus();
-      play_button.onclick = () => {
-        username = username_input.value;
-        username = username.replace(/\s*/g, '');
-        family = getCookie('family');
-        if (username === '') {
-          alert('請輸入名稱!');
-          return;
-        }
-        if (family === "預設氏族") {
-          alert('請擲骰選擇氏族!');
-          return;
-        }
-        setCookie('username', username);
-      }
-    }
-    startGame(username);
   }
   getDelay(document.querySelector('.delay'));
 }).catch(console.error)
@@ -84,22 +71,6 @@ function setUserTop() {
   const username_top = document.querySelector('#username-top');
   userhead_top.src = "/assets/img/heads/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
   username_top.innerHTML = getCookie('username');
-}
-
-function startGame(username) {
-  play(username);
-
-  setUserTop();//設定遊玩頁面上方玩家資訊
-  join.classList.add(HIDDEN);//關閉加入畫面
-  game_control.classList.remove(HIDDEN);//開啟遊戲控制畫面
-  footer.classList.add(HIDDEN);//關閉底部
-
-  document.querySelector('#cnv').classList.remove(HIDDEN);
-  document.querySelector('.ranking').classList.remove(HIDDEN);
-  document.querySelector('.delay').classList.remove(HIDDEN);
-
-  startRendering();
-  startCapturingInput();
 }
 
 //TODO 卡片清單
@@ -164,19 +135,3 @@ function showCardInfo(card) {
   raw_name = card.raw_name;
   description = card.description;
 }
-
-/*
-const mousePosText = document.getElementById('mouse-pos');
-
-window.addEventListener('mousemove', (event) => {
-  var { x, y } = getMousePos(document.querySelector('#cnv'), event);
-  mousePosText.textContent = `(${x}, ${y})`;
-});
-
-function getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-    y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
-  };
-}*/

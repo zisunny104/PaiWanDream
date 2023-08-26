@@ -13,8 +13,7 @@ class Card extends Item {
             h = Constants.CARD.SIZE_B_H;
         }
         super({
-            x, y,
-            w, h,
+            x, y, w, h,
         });
 
         this.isOver = false;
@@ -25,30 +24,13 @@ class Card extends Item {
         this.raw_name = raw_name;//族語名稱
         this.description = description;//卡片說明
         this.file_name = file_name;//圖檔名稱
-
-
-        //持續時間(10s)
-        this.time = 10;
     }
 
     add(player) {
-        switch (this.type) {
-            case 'speed':
-                player.speed += 500;
-                break;
+        if (!player.cards.includes(this)) {
+            player.cards.push(this);
         }
     }
-
-
-
-    /*remove(player) {
-        switch (this.type) {
-            case 'speed':
-                player.speed -= 500;
-                break;
-        }
-    }*/
-
 
     update(dt) {
         this.time -= dt;
