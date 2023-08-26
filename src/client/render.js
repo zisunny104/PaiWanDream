@@ -1,14 +1,14 @@
 import { CARD, PLAYER, BULLET, PROP, MAP_SIZE_H, MAP_SIZE_W } from '../shared/constants'
 import { getAsset } from './asset';
 import { getCurrentState } from './state';
-import { $, setCookie, getCookie, getRandom, sleep } from './util';
+import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 
-const cnv = $('#cnv')
+const cnv = document.querySelector('#cnv')
 const ctx = cnv.getContext('2d')
 
 function setCanvasSize() {
-  cnv.width = 1920;
-  cnv.height = 1200;
+  cnv.width = MAP_SIZE_W;
+  cnv.height = MAP_SIZE_H;
   //cnv.classList.remove("hidden");
   cnv.classList.add("sample");
 }
@@ -18,7 +18,7 @@ setCanvasSize();
 window.addEventListener('resize', setCanvasSize)
 
 function render() {
-  const { me, others, bullets, props, cards } = getCurrentState();
+  const { me, others, cards } = getCurrentState();//bullets, props,
   if (!me) {
     return;
   }
@@ -29,8 +29,8 @@ function render() {
   //ctx.lineWidth = 1;
   //ctx.strokeRect(0, 0, MAP_SIZE_W, MAP_SIZE_H);
 
-  bullets.map(renderBullet.bind(null, me));
-  props.map(renderProp.bind(null, me));
+  //bullets.map(renderBullet.bind(null, me));
+  //props.map(renderProp.bind(null, me));
   cards.map(renderCard.bind(null, me));
 
   renderPlayer(me, me);
@@ -49,7 +49,7 @@ function clearCanvas() {
   context.restore();
 }
 
-function renderProp(me, prop) {
+/*function renderProp(me, prop) {
   const { x, y, type } = prop;
   //var file_name = "能力-多樣性耕種";
   //const img = new Image();
@@ -66,24 +66,10 @@ function renderProp(me, prop) {
     PROP.RADUIS * 6
   )
   ctx.restore();
-}
+}*/
 
 function renderCard(me, card) {
   const { x, y, type, file_name } = card;
-  const img = new Image();
-  img.src = "/assets/img/cards/" + file_name + ".png";
-
-  ctx.save();
-  ctx.drawImage(
-    img,
-    x, y,
-    PROP.RADUIS * 6,
-    PROP.RADUIS * 7
-  )
-  ctx.restore();
-}
-
-function debugCard(x, y) {
   const img = new Image();
   img.src = "/assets/img/cards/" + file_name + ".png";
 
@@ -97,7 +83,7 @@ function debugCard(x, y) {
   ctx.restore();
 }
 
-function renderBullet(me, bullet) {
+/*function renderBullet(me, bullet) {
   const { x, y, rotate } = bullet;
   ctx.save();
   ctx.translate(x, y)
@@ -110,7 +96,7 @@ function renderBullet(me, bullet) {
     BULLET.RADUIS * 2
   )
   ctx.restore();
-}
+}*/
 
 function renderPlayer(me, player) {
   const { x, y } = player;
@@ -146,21 +132,22 @@ function renderPlayer(me, player) {
 
   ctx.fillStyle = 'white'
   ctx.textAlign = 'center';
-  ctx.font = "20px"
+  ctx.font = "50"
   ctx.fillText(player.username, x, y - PLAYER.RADUIS - 16)
 
   ctx.fillText("(" + x + "--" + y + ")", x, y - PLAYER.RADUIS - 32)
 
   ctx.fillText(player.cards, x, y - PLAYER.RADUIS - 48)
 
-  player.buffs.map((buff, i) => {
+  //TODO:人物底部放卡片
+  /*player.buffs.map((buff, i) => {
     ctx.drawImage(
-      getAsset(`${buff.type}.svg`),
+      getAsset(`document.querySelector{buff.type}.svg`),
       x - PLAYER.RADUIS + i * 22,
       y + PLAYER.RADUIS + 16,
       20, 20
     )
-  })
+  })*/
 }
 
 let renderInterval = null;
@@ -186,5 +173,5 @@ export function updateRanking(data) {
     `
   })
 
-  $('.ranking table tbody').innerHTML = str;
+  document.querySelector('.ranking table tbody').innerHTML = str;
 }

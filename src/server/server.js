@@ -8,7 +8,7 @@ const webpackConfig = require('../../webpack.dev')
 const app = express();
 app.use(express.static('public'))
 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig)
   app.use(webpackDevMiddleware(compiler))
 } else {

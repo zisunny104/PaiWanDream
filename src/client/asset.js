@@ -1,14 +1,14 @@
 const ASSET_NAMES = [
-  'ball.svg',
-  'aim.svg',
-  'bullet.svg',
-  'speed.svg'
+  //'ball.svg',
+  //'aim.svg',
+  //'bullet.svg',
+  //'speed.svg'
 ]
 
 const assets = {};
 const downloadPromise = Promise.all(ASSET_NAMES.map(downloadAsset))
 
-function downloadAsset(assetName){
+function downloadAsset(assetName) {
   return new Promise(resolve => {
     const asset = new Image();
     asset.onload = () => {

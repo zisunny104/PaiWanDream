@@ -1,10 +1,11 @@
+const { getRandom } = require('../../shared/utils');
 const Constants = require('../../shared/constants')
 const Item = require('./item')
 
 class Card extends Item {
-    constructor(type, card_name, raw_name, description, file_name) {
-        const x = (Math.random() * .5 + .25) * Constants.MAP_SIZE_W;
-        const y = (Math.random() * .5 + .25) * Constants.MAP_SIZE_H;
+    constructor(x, y, type, card_name, raw_name, description, file_name) {
+        x = x + getRandom(0, 5);
+        y = y + getRandom(0, 5);
         super({
             x, y,
             w: Constants.CARD.SIZE_W,

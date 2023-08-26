@@ -1,6 +1,5 @@
 import io from 'socket.io-client'
 import Constants from '../shared/constants';
-import { $ } from './util'
 
 import { processGameUpdate } from './state'
 

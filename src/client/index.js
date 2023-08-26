@@ -1,5 +1,5 @@
 import { connect, play, getDelay } from './networking';
-import { $, setCookie, getCookie, getRandom, sleep } from './util';
+import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 import { downloadAssets } from './asset';
 
 import 'core-js/stable';
@@ -44,9 +44,9 @@ Promise.all([
     //alert('Debug');
     document.querySelector("body").style.overflow = HIDDEN;
     play("debug");
-    $('#cnv').classList.remove(HIDDEN);
-    $('.ranking').classList.remove(HIDDEN);
-    $('.delay').classList.remove(HIDDEN);
+    document.querySelector('#cnv').classList.remove(HIDDEN);
+    document.querySelector('.ranking').classList.remove(HIDDEN);
+    document.querySelector('.delay').classList.remove(HIDDEN);
 
     join.classList.add(HIDDEN);
     game_control.classList.add(HIDDEN);
@@ -56,8 +56,8 @@ Promise.all([
     startCapturingInput();
 
   } else {
-    //$('.connect').classList.add('hidden')
-    //$('.play').classList.remove('hidden');
+    //document.querySelector('.connect').classList.add('hidden')
+    //document.querySelector('.play').classList.remove('hidden');
     randBead();//隨機琉璃珠
     username_input.focus();
 
@@ -83,9 +83,9 @@ Promise.all([
       game_control.classList.remove(HIDDEN);//開啟遊戲控制畫面
       footer.classList.add(HIDDEN);//關閉底部
 
-      $('#cnv').classList.remove(HIDDEN);
-      $('.ranking').classList.remove(HIDDEN);
-      $('.delay').classList.remove(HIDDEN);
+      document.querySelector('#cnv').classList.remove(HIDDEN);
+      document.querySelector('.ranking').classList.remove(HIDDEN);
+      document.querySelector('.delay').classList.remove(HIDDEN);
 
 
       startRendering();
@@ -94,7 +94,7 @@ Promise.all([
   }
 
 
-  getDelay($('.delay'))
+  getDelay(document.querySelector('.delay'))
 }).catch(console.error)
 
 function setUserTop() {
@@ -110,8 +110,8 @@ function gameOver() {
   join.classList.remove(HIDDEN);
   footer.classList.remove(HIDDEN);
 
-  $('.ranking').classList.add('hidden')
-  $('.delay').classList.add('hidden')
+  document.querySelector('.ranking').classList.add('hidden')
+  document.querySelector('.delay').classList.add('hidden')
   alert('重新加入遊戲(尚未更改完成)。');
 }
 
@@ -173,7 +173,7 @@ function showCardInfo(card) {
 const mousePosText = document.getElementById('mouse-pos');
 
 window.addEventListener('mousemove', (event) => {
-  var { x, y } = getMousePos($('#cnv'), event);
+  var { x, y } = getMousePos(document.querySelector('#cnv'), event);
   mousePosText.textContent = `(${x}, ${y})`;
 });
 

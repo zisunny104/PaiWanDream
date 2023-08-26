@@ -2,12 +2,12 @@ import { updateRanking } from "./render";
 
 const gameUpdates = [];
 
-export function processGameUpdate(update){
+export function processGameUpdate(update) {
   gameUpdates.push(update)
-  
-  updateRanking(update.leaderboard) 
+
+  updateRanking(update.leaderboard)
 }
 
-export function getCurrentState(){
+export function getCurrentState() {
   return gameUpdates[gameUpdates.length - 1]
 }

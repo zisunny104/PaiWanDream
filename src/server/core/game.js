@@ -2,20 +2,21 @@ const xss = require("xss");
 const Constants = require("../../shared/constants");
 const Utils = require("../../shared/utils");
 const Player = require("../objects/player");
-const Prop = require("../objects/prop");
+//const Prop = require("../objects/prop");
 const Card = require("../objects/card");
 
 class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
-    this.bullets = [];
-    this.props = [];
+    //this.bullets = [];
+    //this.props = [];
     this.cards = [];
     this.lastUpdateTime = Date.now();
     this.shouldSendUpdate = false;
-    this.createPropTime = 0;
+    //this.createPropTime = 0;
     this.createCardTime = 0;
+    this.standby = true;
     setInterval(this.update.bind(this), 1000 / 60);
   }
   c
@@ -24,37 +25,67 @@ class Game {
     const dt = (now - this.lastUpdateTime) / 1000;
     this.lastUpdateTime = now;
 
-    this.createPropTime -= dt;
+    /*this.createPropTime -= dt;
     this.props = this.props.filter(item => !item.isOver)
     if (this.createPropTime <= 0 && this.props.length < 10) {
       this.createPropTime = Constants.PROP.CREATE_TIME;
       this.props.push(new Prop('speed'));
-    }
+    }*/
+
+    const card_pos_id = [0, 1, 2, 3,
+      4, 5, 6,
+      7, 8,
+      9, 10,
+      11, 12,
+      13, 14];
+    const card_pos_x = [23, 76, 10,
+      312, 378, 318,
+      597, 710,
+      876,
+      1140, 1000,
+      1390, 1340,
+      1648, 1650];
+    const card_pos_y = [5, 410, 830,
+      45, 410, 780,
+      3, 355,
+      30,
+      70, 395,
+      12, 397,
+      90, 409];
 
     //TODO:卡片類型變換
     this.createCardTime -= dt;
     this.cards = this.cards.filter(item => !item.isOver)
-    if (this.createCardTime <= 0 && this.cards.length < 10) {
+
+    if (this.createCardTime <= 0) {
       this.createCardTime = Constants.PROP.CREATE_TIME;
-      this.cards.push(new Card("能力", "多樣性耕種", "puljakarakaravan", "一塊良田除主要作物外，四周會再種上豆類、根莖等其他作物，讓部落一年四季都有糧食，也不容易因作物欠收而鬧飢荒。而在每個家屋旁也常設有花園，裡面就種植了藥材、食材及花材等植物，可以說是多樣化的最好體現。此外植物種子保存極為重要，包括一些不常種或不好吃的作物種子。在族人觀念裡，所有作物都有它的用處，會在不同的時間點展現。",
-        "能力-多樣性耕種"));
+      card_pos_id.forEach(pid => {
+        this.cards.push(new Card(card_pos_x[pid], card_pos_y[pid],
+          "能力",
+          "多樣性耕種",
+          "puljakarakaravan",
+          "一塊良田除主要作物外，四周會再種上豆類、根莖等其他作物，讓部落一年四季都有糧食，也不容易因作物欠收而鬧飢荒。而在每個家屋旁也常設有花園，裡面就種植了藥材、食材及花材等植物，可以說是多樣化的最好體現。此外植物種子保存極為重要，包括一些不常種或不好吃的作物種子。在族人觀念裡，所有作物都有它的用處，會在不同的時間點展現。",
+          "能力-多樣性耕種"));
+      });
+      /*this.cards.push(new Card("能力", "多樣性耕種", "puljakarakaravan", "一塊良田除主要作物外，四周會再種上豆類、根莖等其他作物，讓部落一年四季都有糧食，也不容易因作物欠收而鬧飢荒。而在每個家屋旁也常設有花園，裡面就種植了藥材、食材及花材等植物，可以說是多樣化的最好體現。此外植物種子保存極為重要，包括一些不常種或不好吃的作物種子。在族人觀念裡，所有作物都有它的用處，會在不同的時間點展現。",
+        "能力-多樣性耕種"));*/
     }
 
-    this.bullets = this.bullets.filter(item => !item.isOver)
+    /*this.bullets = this.bullets.filter(item => !item.isOver)
     this.bullets.map(bullet => {
       bullet.update(dt);
-    })
+    })*/
 
-    Object.keys(this.players).map(playerID => {
+    /*Object.keys(this.players).map(playerID => {
       const player = this.players[playerID]
       const bullet = player.update(dt)
       if (bullet) {
         this.bullets.push(bullet);
       }
-    })
+    })*/
 
-    this.collisionsBullet(Object.values(this.players), this.bullets);
-    this.collisionsProp(Object.values(this.players), this.props);
+    //this.collisionsBullet(Object.values(this.players), this.bullets);
+    //this.collisionsProp(Object.values(this.players), this.props);
     this.collisionsCard(Object.values(this.players), this.cards)
 
     Object.keys(this.sockets).map(playerID => {
@@ -80,7 +111,7 @@ class Game {
     }
   }
 
-  collisionsProp(players, props) {
+  /*collisionsProp(players, props) {
     for (let i = 0; i < props.length; i++) {
       for (let j = 0; j < players.length; j++) {
         let prop = props[i];
@@ -93,7 +124,7 @@ class Game {
         }
       }
     }
-  }
+  }*/
 
   collisionsCard(players, cards) {
     for (let i = 0; i < cards.length; i++) {
@@ -110,7 +141,7 @@ class Game {
     }
   }
 
-  collisionsBullet(players, bullets) {
+  /*collisionsBullet(players, bullets) {
     for (let i = 0; i < bullets.length; i++) {
       for (let j = 0; j < players.length; j++) {
         let bullet = bullets[i];
@@ -128,7 +159,7 @@ class Game {
         }
       }
     }
-  }
+  }*/
 
   createUpdate(player) {
     const otherPlayer = Object.values(this.players).filter(
@@ -139,9 +170,9 @@ class Game {
       t: Date.now(),
       me: player.serializeForUpdate(),
       others: otherPlayer,
-      bullets: this.bullets.map(bullet => bullet.serializeForUpdate()),
+      //bullets: this.bullets.map(bullet => bullet.serializeForUpdate()),
       leaderboard: this.getLeaderboard(),
-      props: this.props.map(prop => prop.serializeForUpdate()),
+      //props: this.props.map(prop => prop.serializeForUpdate()),
       cards: this.cards.map(card => card.serializeForUpdate())
     }
   }
@@ -155,7 +186,6 @@ class Game {
 
   joinGame(socket, username) {
     this.sockets[socket.id] = socket;
-
     const x = 1700 + (Utils.getRandom(-10, 10));
     const y = 930 + (Utils.getRandom(-30, 10));
     this.players[socket.id] = new Player({
@@ -164,11 +194,21 @@ class Game {
       x, y,
       r: Constants.PLAYER.RADUIS
     })
+    this.testStandby();
   }
 
   disconnect(socket) {
-    delete this.sockets[socket.id]
-    delete this.players[socket.id]
+    delete this.sockets[socket.id];
+    delete this.players[socket.id];
+    this.testStandby();
+  }
+
+  testStandby() {
+    if (this.players.length == 0) {
+      this.standby = true;
+    } else {
+      this.standby = false;
+    }
   }
 
   handleInput(socket, item) {

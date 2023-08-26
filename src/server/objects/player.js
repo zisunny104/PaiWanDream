@@ -16,15 +16,16 @@ class Player extends Item {
     this.username = data.username;
     this.cards = data.cards;
 
+
     this.hp = Constants.PLAYER.MAX_HP;
     this.speed = Constants.PLAYER.SPEED;
     this.score = 0;
-
-    this.buffs = [];
-    // 开火
-    this.fire = false;
-    this.fireMouseDir = 0;
-    this.fireTime = 0;
+    /*
+        this.buffs = [];
+        // 开火
+        this.fire = false;
+        this.fireMouseDir = 0;
+        this.fireTime = 0;*/
   }
 
   update(dt) {
@@ -34,6 +35,7 @@ class Player extends Item {
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE_W, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE_H, this.y));
 
+    /*
     // 判断buff是否失效
     this.buffs = this.buffs.filter(item => {
       if (item.time > 0) {
@@ -51,13 +53,14 @@ class Player extends Item {
         this.fireTime = Constants.PLAYER.FIRE;
         return new Bullet(this.id, this.x, this.y, this.fireMouseDir);
       }
-    }
+    }*/
   }
 
+  /*
   pushBuff(prop) {
     this.buffs.push(prop);
     prop.add(this);
-  }
+  }*/
 
   catchCard(card) {
     if (this.cards.includes(card.card_name)) {
@@ -68,16 +71,17 @@ class Player extends Item {
     //showCardInfo(card);
   }
 
+  /*
   takeBulletDamage() {
     this.hp -= 1;
-  }
+  }*/
 
   serializeForUpdate() {
     return {
       ...(super.serializeForUpdate()),
       username: xss(this.username),
       hp: this.hp,
-      buffs: this.buffs.map(item => item.serializeForUpdate())
+      //buffs: this.buffs.map(item => item.serializeForUpdate())
     }
   }
 }

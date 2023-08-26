@@ -1,8 +1,10 @@
 module.exports = Object.freeze({
   PLAYER: {
-    MAX_HP: 100,
+    MAX_HP: 300,
     SPEED: 150,
     RADUIS: 50,
+    SIZE_W: 0,
+    SIZE_H: 0,
     FIRE: .1
   },
 
@@ -12,8 +14,8 @@ module.exports = Object.freeze({
   },
 
   CARD: {
-    SIZE_W: 300,
-    SIZE_H: 200,
+    SIZE_W: 240,
+    SIZE_H: 305,
   },
 
   PROP: {
