@@ -131,6 +131,31 @@ export function updateRanking(data) {
   document.querySelector('.ranking table tbody').innerHTML = str;
 }
 
+export function showCardList() {
+  let cards_raw = getCookie('cards_file_name_raw');
+  let cards_file_name = cards_raw.split(',');
+  let str = '';
+  cards_file_name.map(card_file_name => {
+    var card = getCardByFileName(card_file_name);
+
+    str += `
+    <div class="ts-content">
+      <div class="ts-box is-horizontal">
+        <div class="ts-image is-covered">
+            <img style="width: 130px; height: 100%;" src="/assets/img/cards/${card_file_name}.svg">
+        </div>
+        <div class="ts-content">
+        <div class="ts-header">${card.card_name}</div>
+          <div id="raw-name" class="ts-text is-description">${card.raw_name}</div>
+          <p>${card.description}</p>
+        </div>
+      </div>
+    </div>
+    `
+  });
+  document.querySelector('#card-list-card').innerHTML = str;
+}
+
 export function updateStandby() {
   const { others } = getCurrentState();
   var dom = document.querySelector('#standby');

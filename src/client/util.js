@@ -1,6 +1,4 @@
-export function $(elem) {
-  return document.querySelector(elem)
-}
+/*
 
 export function setCookie(cookieName, cookieValue, expiryDate) {
   var d = new Date();
@@ -31,3 +29,4 @@ export function sleep(millisecond) {
     }, millisecond)
   })
 }
+*/

@@ -1,6 +1,7 @@
 import { connect, play, getDelay } from './networking';
-import { $, setCookie, getCookie, getRandom, sleep } from './util';
+import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 import { downloadAssets } from './asset';
+import { getCurrentState } from './state';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -138,4 +139,14 @@ function showCardInfo(card) {
   card_name = card.card.card_name;
   raw_name = card.raw_name;
   description = card.description;
+}
+
+function getCardByFileName(file_name) {
+  const { all_cards } = getCurrentState();
+  all_cards.map(card => {
+    if (card.file_name == file_name) {
+      return card;
+    }
+  });
+  return null;
 }

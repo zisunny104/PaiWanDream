@@ -24,7 +24,6 @@ class Card extends Item {
         this.raw_name = raw_name;//族語名稱
         this.description = description;//卡片說明
         this.file_name = file_name;//圖檔名稱
-
     }
 
     add(player) {
