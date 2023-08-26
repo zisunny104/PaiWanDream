@@ -36,5 +36,6 @@ module.exports = Object.freeze({
     INPUT: 3,
     GAME_OVER: 4,
     GET_DELAY: 5
-  }
+  },
+
 })

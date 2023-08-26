@@ -38,7 +38,7 @@ function clearCanvas() {
 function renderCard(me, card) {
   const { x, y, w, h, file_name } = card;
   const img = new Image();
-  img.src = "/assets/img/cards/" + file_name + ".png";
+  img.src = "/assets/img/cards/" + file_name + ".svg";
   ctx.save();
   ctx.drawImage(
     img,
@@ -90,7 +90,7 @@ function renderPlayer(me, player) {
 
   /*player.cards.map(card => {
     const img = new Image();
-    img.src = "/assets/img/cards/" + card.file_name + ".png";
+    img.src = "/assets/img/cards/" + card.file_name + ".svg";
     var w = CARD.SIZE_W;
     var h = CARD.SIZE_H;
     if (card.type == "危機") {

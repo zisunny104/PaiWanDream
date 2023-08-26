@@ -103,7 +103,7 @@ async function switchFamily() {
   bead.classList.add(HIDDEN);
   family = family_list[getRandom(0, 3)];
   setCookie('family', family);
-  family_img.src = "/assets/img/cards/氏族-" + family + ".png";
+  family_img.src = "/assets/img/cards/氏族-" + family + ".svg";
   family_img.classList.remove(HIDDEN);
   button.textContent = family;
   button.disabled = "disabled";
@@ -134,7 +134,7 @@ function showCardInfo(card) {
   const raw_name = document.querySelector('#raw-name');
   const description = document.querySelector('#description');
 
-  card_img.src = "assets/img/cards/" + card.file_name + ".png";
+  card_img.src = "assets/img/cards/" + card.file_name + ".svg";
   card_name = card.card.card_name;
   raw_name = card.raw_name;
   description = card.description;
