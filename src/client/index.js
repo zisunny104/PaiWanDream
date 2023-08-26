@@ -76,8 +76,11 @@ function setUserTop() {
 
 //TODO 卡片清單
 function gameOver() {
+  var cards = [];
+  //cards = getCookie('cards');
   stopRendering();
   stopCapturingInput();
+  //showCardList(cards);
   join.classList.remove(HIDDEN);
   footer.classList.remove(HIDDEN);
 
@@ -129,24 +132,18 @@ async function switchFamily() {
   username_input.focus();*/
 }
 
-function showCardInfo(card) {
-  const card_img = document.querySelector('#card-img');
-  const card_name = document.querySelector('#card-name');
-  const raw_name = document.querySelector('#raw-name');
-  const description = document.querySelector('#description');
-
-  card_img.src = "assets/img/cards/" + card.file_name + ".svg";
-  card_name = card.card.card_name;
-  raw_name = card.raw_name;
-  description = card.description;
-}
-
 function getCardByFileName(file_name) {
-  const { all_cards } = getCurrentState();
-  all_cards.map(card => {
-    if (card.file_name == file_name) {
-      return card;
+  var card = null;
+  card_list.map(item => {
+    console.log(item.file_name)
+    if (item.file_name == file_name) {
+      card = new Card(0, 0,
+        item.type,
+        item.card_name,
+        item.raw_name,
+        item.description,
+        item.file_name);
     }
   });
-  return null;
+  return card;
 }

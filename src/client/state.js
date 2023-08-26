@@ -7,7 +7,7 @@ const gameUpdates = [];
 
 export function processGameUpdate(update) {
   gameUpdates.push(update)
-  updateStandby();
+  //updateStandby();
   updateRanking(update.leaderboard)
 }
 

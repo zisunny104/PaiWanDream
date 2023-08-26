@@ -194,7 +194,7 @@ const card_list = [
     "card_name": "聖山",
     "raw_name": "tjaivuvu、kavulungan tjagaraus、parasidjan",
     "description": "聖山在各排灣族群中非常重要，在神話中是caucau(人)的kineveqacan(萌芽之地)，是造物者太陽神居住並看顧族人之處，有些部落會把山擬人化，直接將它視為神的化身。聖山通常嚴禁族人進入，許多祭儀也都會朝聖山所在方位祭拜，祈求居於該處的神靈聆聽。 tjaivuvu(大姆姆山)是排灣族ravar群的聖山，意思為「懷抱在祖父/子孫那裡(意 指生命輪迴)」。\nkavulungan(北大武山)是vuculj、paumaq、kaqaluan群的聖山，意思為「神 聖的耆老」。 \ntjagaraus(南大武山)是paumaq、pavua、paqalu群的聖山，意思為「靈界的 部落」。 \nparasidjan(霧頭山)是drekai魯凱族的聖山，意思為「使之和諧」。",
-    "file_name": "榮耀－聖山"
+    "file_name": "榮耀-聖山"
   },
   {
     "type": "榮耀",
@@ -250,28 +250,28 @@ const card_list = [
     "card_name": "祭祀-太陽神祭",
     "raw_name": "pakaiyiuma tua qadaw",
     "description": "",
-    "file_name": "榮耀-太陽神祭"
+    "file_name": "榮耀-祭祀太陽神"
   },
   {
     "type": "榮耀",
     "card_name": "祭祀-動物生命祭",
     "raw_name": "mavesuang",
     "description": "",
-    "file_name": "榮耀-動物生命祭"
+    "file_name": "榮耀-祭祀動物生命"
   },
   {
     "type": "榮耀",
     "card_name": "祭祀-植物生命祭",
     "raw_name": "masalut",
     "description": "",
-    "file_name": "榮耀-植物生命祭"
+    "file_name": "榮耀-祭祀植物生命"
   },
   {
     "type": "榮耀",
     "card_name": "祭祀-人祖生命祭",
     "raw_name": "pakaiyiuma tua vuvu",
     "description": "",
-    "file_name": "榮耀-人祖生命祭"
+    "file_name": "榮耀-祭祀人祖生命"
   },
   {
     "type": "榮耀",
@@ -442,6 +442,8 @@ class Game {
     this.createPropTime = 0;
     this.createCardTime = 0;
     setInterval(this.update.bind(this), 1000 / 60);
+
+    this.load_all_card_to_list();
   }
 
   update() {
@@ -484,11 +486,12 @@ class Game {
       412, 390,
     ];
 
-    //TODO:卡片類型變換
+    //TODO:卡片類型變換ok
     this.createCardTime -= dt;
     this.cards = this.cards.filter(item => !item.isOver)
 
     if (this.createCardTime <= 0) {
+      this.cards.length = 0;
       //this.cards = [];
       this.createCardTime = Constants.CARD.CREATE_TIME;
       card_pos_id.forEach(pid => {
@@ -582,9 +585,9 @@ class Game {
         let card = cards[i];
         let player = players[j];
 
-        if (player.distanceTo(cards) <= Constants.PLAYER.RADUIS + Constants.PROP.RADUIS * 6) {
+        if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + Math.min(card.w, card.h) / 2) {
           //cards.isOver = true;
-          player.catchCard(cards);
+          player.catchCard(card);
           break;
         }
       }
@@ -652,14 +655,13 @@ class Game {
   }
 
   load_all_card_to_list() {
-    let csv2array = [];//TODO: card_data
-    csv2array.map(item => {
-      this.all_cards.put(new Card(0, 0,
+    card_list.map(item => {
+      this.all_cards.push(new Card(0, 0,
         item.type,
         item.card_name,
         item.raw_name,
         item.description,
-        item.filename)
+        item.file_name)
       );
     });
   }

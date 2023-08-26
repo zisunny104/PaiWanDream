@@ -24,6 +24,8 @@ class Card extends Item {
         this.raw_name = raw_name;//族語名稱
         this.description = description;//卡片說明
         this.file_name = file_name;//圖檔名稱
+
+        this.hp = 300;
     }
 
     add(player) {
@@ -44,7 +46,8 @@ class Card extends Item {
 
 
     update(dt) {
-        this.time -= dt;
+        //this.time -= dt;
+        this.hp -= dt;
     }
 
     serializeForUpdate() {
@@ -54,7 +57,8 @@ class Card extends Item {
             card_name: this.card_name,
             raw_name: this.raw_name,
             description: this.description,
-            file_name: this.file_name
+            file_name: this.file_name,
+            hp: this.hp,
         }
     }
 }

@@ -1,7 +1,12 @@
 const Item = require('./item')
 const Constants = require('../../shared/constants');
 const Bullet = require('./bullet');
-const xss = require('xss')
+const xss = require('xss');
+const { setCookie } = require('../../shared/utils');
+
+Array.prototype.remove = function (value) {
+  this.splice(this.indexOf(value), 1);
+}
 
 
 class Player extends Item {
@@ -13,7 +18,7 @@ class Player extends Item {
       top: 0, bottom: 0
     };
     this.username = data.username;
-    this.cards = data.cards;
+    this.cards = [];
 
     this.hp = Constants.PLAYER.MAX_HP;
     this.speed = Constants.PLAYER.SPEED;
@@ -24,6 +29,10 @@ class Player extends Item {
     this.fire = false;
     this.fireMouseDir = 0;
     this.fireTime = 0;
+
+    if (this.username == "debug") {
+      this.hp = 999999999999999;
+    }
   }
 
   update(dt) {
@@ -32,6 +41,8 @@ class Player extends Item {
 
     this.x = Math.max(0, Math.min(Constants.MAP_SIZE_W, this.x));
     this.y = Math.max(0, Math.min(Constants.MAP_SIZE_H, this.y));
+
+    this.hp -= dt;
 
     // 判断buff是否失效
     this.buffs = this.buffs.filter(item => {
@@ -59,10 +70,13 @@ class Player extends Item {
   }
 
   catchCard(card) {
-    if (this.cards.includes(card.card_name)) {
-      return;
+    if (this.cards.includes(card.file_name)) {
+      this.cards.remove(card.file_name);
+      //return;
     }
-    this.cards.push(card.card_name);
+    this.cards.push(card.file_name);
+    this.score = this.cards.length;
+
     //card.show(this);
     //showCardInfo(card);
   }
@@ -76,6 +90,8 @@ class Player extends Item {
       ...(super.serializeForUpdate()),
       username: xss(this.username),
       hp: this.hp,
+      score: this.score,
+      cards: this.cards,
       buffs: this.buffs.map(item => item.serializeForUpdate())
     }
   }
