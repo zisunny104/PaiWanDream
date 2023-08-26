@@ -4,7 +4,7 @@ import Constants from '../shared/constants';
 import { processGameUpdate } from './state'
 
 const socketProtocal = (window.location.protocol.includes('https') ? 'wss' : 'ws');
-const socket = io(`${socketProtocal}://${window.location.host}`, { reconnection: true });//{ reconnection: false })
+const socket = io(`${socketProtocal}://${window.location.host}`, { reconnection: false })
 
 const disconnect_modal = document.querySelector('#disconnect-modal');
 const reconnect_button = document.querySelector('#reconnect-button');
@@ -49,4 +49,3 @@ export const getDelay = dom => {
     dom.innerHTML = (now - prev) / 2 + 'ms'
   })
 }
-

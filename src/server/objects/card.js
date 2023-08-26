@@ -24,13 +24,25 @@ class Card extends Item {
         this.raw_name = raw_name;//族語名稱
         this.description = description;//卡片說明
         this.file_name = file_name;//圖檔名稱
+
     }
 
     add(player) {
-        if (!player.cards.includes(this)) {
-            player.cards.push(this);
+        switch (this.type) {
+            case 'speed':
+                player.speed += 500;
+                break;
         }
     }
+
+    remove(player) {
+        switch (this.type) {
+            case 'speed':
+                player.speed -= 500;
+                break;
+        }
+    }
+
 
     update(dt) {
         this.time -= dt;

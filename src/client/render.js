@@ -88,8 +88,7 @@ function renderPlayer(me, player) {
   ctx.font = "30px Arial"
   ctx.fillText(player.username, x, y - PLAYER.RADUIS - 16)
 
-  /*
-  player.cards.map(card => {
+  /*player.cards.map(card => {
     const img = new Image();
     img.src = "/assets/img/cards/" + card.file_name + ".png";
     var w = CARD.SIZE_W;

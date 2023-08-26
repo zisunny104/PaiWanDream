@@ -1,5 +1,5 @@
 import { connect, play, getDelay } from './networking';
-import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
+import { $, setCookie, getCookie, getRandom, sleep } from './util';
 import { downloadAssets } from './asset';
 
 import 'core-js/stable';
@@ -80,8 +80,8 @@ function gameOver() {
   join.classList.remove(HIDDEN);
   footer.classList.remove(HIDDEN);
 
-  document.querySelector('.ranking').classList.add('hidden')
-  document.querySelector('.delay').classList.add('hidden')
+  $('.ranking').classList.add('hidden')
+  $('.delay').classList.add('hidden')
   alert('重新加入遊戲(尚未更改完成)。');
 }
 
@@ -122,6 +122,10 @@ async function switchFamily() {
     head_switch.classList.add(HIDDEN);
     setCookie('head-side', "右");
   }
+  /*document.querySelector('#step-fami').scrollIntoView({
+    behavior: 'smooth'
+  });
+  username_input.focus();*/
 }
 
 function showCardInfo(card) {

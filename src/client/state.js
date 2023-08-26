@@ -1,5 +1,8 @@
 import { updateRanking, updateStandby } from "./render";
 
+
+
+
 const gameUpdates = [];
 
 export function processGameUpdate(update) {

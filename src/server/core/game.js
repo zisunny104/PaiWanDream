@@ -2,13 +2,14 @@ const xss = require("xss");
 const Constants = require("../../shared/constants");
 const Utils = require("../../shared/utils");
 const Player = require("../objects/player");
-const Card = require("../objects/card");
 const Prop = require("../objects/prop");
+const Card = require("../objects/card");
 
 class Game {
   constructor() {
     this.sockets = {};
     this.players = {};
+    this.bullets = [];
     this.props = [];
     this.cards = [];
     this.lastUpdateTime = Date.now();
@@ -23,12 +24,13 @@ class Game {
     const dt = (now - this.lastUpdateTime) / 1000;
     this.lastUpdateTime = now;
 
-    this.createPropTime -= dt;
+    /*this.createPropTime -= dt;
     this.props = this.props.filter(item => !item.isOver)
     if (this.createPropTime <= 0 && this.props.length < 10) {
       this.createPropTime = Constants.PROP.CREATE_TIME;
       this.props.push(new Prop('speed'));
-    }
+    }*/
+
 
     const card_pos_id = [0, 1, 2, 3,
       4, 5, 6,
@@ -82,9 +84,18 @@ class Game {
       });
     }
 
+    Object.keys(this.players).map(playerID => {
+      const player = this.players[playerID]
+      const bullet = player.update(dt)
+      if (bullet) {
+        this.bullets.push(bullet);
+      }
+    })
+
+    this.collisionsBullet(Object.values(this.players), this.bullets);
+    this.collisionsProp(Object.values(this.players), this.props);
     //碰撞檢測
     this.collisionsCard(Object.values(this.players), this.cards);
-    this.collisionsProp(Object.values(this.players), this.props);
 
     Object.keys(this.sockets).map(playerID => {
       const socket = this.sockets[playerID]
@@ -109,20 +120,6 @@ class Game {
     }
   }
 
-  collisionsCard(players, cards) {
-    for (let i = 0; i < cards.length; i++) {
-      for (let j = 0; j < players.length; j++) {
-        let card = cards[i];
-        let player = players[j];
-
-        if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + card.h) {
-          card.add(player);
-          break;
-        }
-      }
-    }
-  }
-
   collisionsProp(players, props) {
     for (let i = 0; i < props.length; i++) {
       for (let j = 0; j < players.length; j++) {
@@ -138,6 +135,41 @@ class Game {
     }
   }
 
+  collisionsCard(players, cards) {
+    for (let i = 0; i < cards.length; i++) {
+      for (let j = 0; j < players.length; j++) {
+        let card = cards[i];
+        let player = players[j];
+
+        if (player.distanceTo(cards) <= Constants.PLAYER.RADUIS + Constants.PROP.RADUIS * 6) {
+          //cards.isOver = true;
+          player.catchCard(cards);
+          break;
+        }
+      }
+    }
+  }
+
+  collisionsBullet(players, bullets) {
+    for (let i = 0; i < bullets.length; i++) {
+      for (let j = 0; j < players.length; j++) {
+        let bullet = bullets[i];
+        let player = players[j];
+
+        if (bullet.parentID !== player.id
+          && player.distanceTo(bullet) <= Constants.PLAYER.RADUIS + Constants.BULLET.RADUIS
+        ) {
+          bullet.isOver = true;
+          player.takeBulletDamage();
+          if (player.hp <= 0) {
+            this.players[bullet.parentID].score++;
+          }
+          break;
+        }
+      }
+    }
+  }
+
   createUpdate(player) {
     const otherPlayer = Object.values(this.players).filter(
       p => p !== player
@@ -147,6 +179,7 @@ class Game {
       t: Date.now(),
       me: player.serializeForUpdate(),
       others: otherPlayer,
+      bullets: this.bullets.map(bullet => bullet.serializeForUpdate()),
       leaderboard: this.getLeaderboard(),
       props: this.props.map(prop => prop.serializeForUpdate()),
       cards: this.cards.map(card => card.serializeForUpdate())
@@ -173,8 +206,8 @@ class Game {
   }
 
   disconnect(socket) {
-    delete this.sockets[socket.id];
-    delete this.players[socket.id];
+    delete this.sockets[socket.id]
+    delete this.players[socket.id]
   }
 
   handleInput(socket, item) {

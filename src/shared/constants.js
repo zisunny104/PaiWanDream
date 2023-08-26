@@ -28,6 +28,8 @@ module.exports = Object.freeze({
   MAP_SIZE_W: 1920,
   MAP_SIZE_H: 1200,
 
+  中文字: 123,
+
   MSG_TYPES: {
     JOIN_GAME: 1,
     UPDATE: 2,
