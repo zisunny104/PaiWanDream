@@ -27,6 +27,11 @@ const bead = document.querySelector('#bead-img');
 const family_img = document.querySelector('#family-img');
 const button = document.querySelector('#bead-button');
 
+const game_over = document.querySelector("#game-over");
+const over_username = document.querySelector("#over-username");
+const over_body = document.querySelector("#over-body");
+
+
 const family_list = ["太陽種子", "太陽枝葉", "大地種子", "大地枝葉"];
 
 var username = "匿名玩家";
@@ -61,6 +66,9 @@ Promise.all([
     footer.classList.add(HIDDEN);//關閉底部
     game_canvas.classList.remove(HIDDEN);//開啟遊戲畫面
 
+    over_username.innerHTML = getCookie('username');
+    over_body.src = "/assets/img/body/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
+
     startRendering();
     startCapturingInput();
   }
@@ -74,19 +82,20 @@ function setUserTop() {
   username_top.innerHTML = getCookie('username');
 }
 
-//TODO 卡片清單
+function onGameOverdo() {
+  game_canvas.classList.add(HIDDEN);
+  game_control.classList.add(HIDDEN);
+  game_over.classList.remove(HIDDEN);
+  footer.classList.remove(HIDDEN);
+  document.querySelector('.ranking').classList.add('hidden');
+  document.querySelector('.delay').classList.add('hidden');
+}
+
+
 function gameOver() {
-  var cards = [];
-  //cards = getCookie('cards');
   stopRendering();
   stopCapturingInput();
-  //showCardList(cards);
-  join.classList.remove(HIDDEN);
-  footer.classList.remove(HIDDEN);
-
-  $('.ranking').classList.add('hidden')
-  $('.delay').classList.add('hidden')
-  alert('重新加入遊戲(尚未更改完成)。');
+  onGameOverdo();
 }
 
 function randBead() {

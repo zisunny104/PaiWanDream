@@ -53,7 +53,7 @@
 
   <!--玩家頁面-->
 
-  <div id="game-control" class="ts-container is-very-narrow hidden" style="height: 99%; overflow: hidden;">
+  <div id="game-control" class="ts-container is-very-narrow hidden" style="height: 100%; overflow: hidden;">
     <div class="ts-app-layout is-vertical">
       <div class="cell">
         <!--放置內容(頂部/個人名稱+卡牌數量)-->
@@ -151,19 +151,55 @@
   </div>
   <!--玩家頁面-->
 
-  <div id="game-over" class="ts-wrap is-vertical">
-    <!--放置內容(卡牌圖片與說明)-->
-    <div id="card-list" class="ts-box hidden">
-      <div class="ts-content ">
-        <div class="ts-center">
-          <div id="card-list-card">
-
+  <!--遊戲結束-->
+  <div id="game-over" class="ts-container is-very-narrow hidden">
+    <div class="ts-wrap is-vertical">
+      <div class="ts-image">
+        <img src="/assets/img/標題.png">
+      </div>
+      <div class="ts-grid is-stretched">
+        <div class="column is-fluid">
+          <div class="ts-box">
+            <div class="ts-content">
+              <div class="ts-statistic">
+                <div id="over-username" class="value">很酷的名稱</div>
+              </div>
+            </div>
+            <div class="ts-image is-small">
+              <img id="over-body" src="/assets/img/body/大地種子_右.svg" style="height: 150px;">
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="ts-box">
+            <div class="ts-content">
+              <div>
+                <img src="/assets/img/cards.svg">
+              </div>
+              <div class="ts-statistic">
+                <div id="over-score" class="value">0</div>
+              </div>
+              收集到的卡片
+            </div>
           </div>
         </div>
       </div>
+
+      <!--放置內容(卡牌圖片與說明)-->
+      <div id="card-list" class="ts-box">
+        <div class="ts-content ">
+          <div class="ts-center">
+            <div id="card-list-card">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--放置內容(卡牌圖片與說明)-->
+      <button id="over--reconnect-button" class="ts-button is-fluid is-outlined u-top-spaced-large">重新加入探索</button>
     </div>
-    <!--放置內容(卡牌圖片與說明)-->
   </div>
+  <!--遊戲結束-->
 
   <!--加入遊戲-->
   <div id="join" class=" ts-container is-very-narrow">

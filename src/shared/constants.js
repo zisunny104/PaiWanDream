@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
   PLAYER: {
-    MAX_HP: 300,
+    MAX_HP: 180,
     SPEED: 150,
     RADUIS: 50,
     SIZE_W: 0,
@@ -18,7 +18,7 @@ module.exports = Object.freeze({
     SIZE_H: 305,
     SIZE_B_W: 300,
     SIZE_B_H: 245,
-    CREATE_TIME: 300,
+    CREATE_TIME: 150,
   },
 
   PROP: {

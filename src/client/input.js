@@ -21,7 +21,23 @@ keys.forEach((key) => {
       })
     }, 50);
   });
+  /*
+    onmousedown = "ButtonPressed(this);"
+    ontouchstart = "ButtonPressed(this);"
+  
+    onmouseup = "ButtonReleased(this);"
+    onmouseout = "ButtonReleased(this);"
+    ontouchend = "ButtonReleased(this);"
+    ontouchcancel = "ButtonReleased(this);"
+  
+    ontouchmove = ""
+  
+    key.addEventListener("touchmove")(event, () => {
+      CancelEvent(event);
+    };*/
+
 });
+
 
 window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowUp") {
@@ -42,6 +58,10 @@ window.addEventListener("keydown", (e) => {
 
   }
 });
+
+function CancelEvent(e) {
+  e.preventDefault();
+}
 
 function onKeydown(ev) {
   let code = ev.keyCode;

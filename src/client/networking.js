@@ -8,6 +8,7 @@ const socket = io(`${socketProtocal}://${window.location.host}`, { reconnection:
 
 const disconnect_modal = document.querySelector('#disconnect-modal');
 const reconnect_button = document.querySelector('#reconnect-button');
+const over_reconnect_button = document.querySelector('#over-reconnect-button');
 
 const connectPromise = new Promise(resolve => {
   socket.on('connect', () => {
@@ -24,6 +25,9 @@ export const connect = onGameOver => {
       disconnect_modal.classList.add('is-visible');
       console.log('Disconnected from server.');
       reconnect_button.onclick = () => {
+        window.location.reload();
+      };
+      over_reconnect_button.onclick = () => {
         window.location.reload();
       };
     })

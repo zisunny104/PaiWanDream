@@ -636,6 +636,6 @@ export function updateStandby(me, others) {
   }
 
   document.querySelector('#score-top').innerHTML = score;
-
+  document.querySelector('#over-score').innerHTML = score;
 }
 
