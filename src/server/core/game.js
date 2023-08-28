@@ -649,6 +649,23 @@ class Game {
     })
   }
 
+  setPlayerFamily(socket, family) {
+    this.sockets[socket.id] = socket;
+    const player = this.players[socket.id];
+    if (player) {
+      this.players[socket.id].family = family;
+    }
+  }
+
+  setPlayerHeadSide(socket, head_side) {
+    this.sockets[socket.id] = socket;
+    const player = this.players[socket.id];
+    if (player) {
+      this.players[socket.id].head_side = head_side;
+    }
+  }
+
+
   disconnect(socket) {
     delete this.sockets[socket.id]
     delete this.players[socket.id]

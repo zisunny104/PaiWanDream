@@ -493,13 +493,13 @@ function renderCard(me, card) {
 }
 
 function renderPlayer(me, player) {
-  const { x, y, username, cards } = player;
+  const { x, y, username, cards, family, head_side } = player;
   if (username == "debug") {
     return;
   }
 
   const img = new Image();
-  img.src = "/assets/img/body/" + getCookie('family') + "_" + getCookie('head-side') + ".svg";
+  img.src = "/assets/img/body/" + family + "_" + head_side + ".svg";
   ctx.save();
   ctx.translate(x, y);
   ctx.drawImage(

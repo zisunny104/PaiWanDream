@@ -30,6 +30,9 @@ class Player extends Item {
     this.fireMouseDir = 0;
     this.fireTime = 0;
 
+    this.family = "大地枝葉";
+    this.head_side = "左";
+
     if (this.username == "debug") {
       this.hp = 999999999999999;
     }
@@ -92,7 +95,9 @@ class Player extends Item {
       hp: this.hp,
       score: this.score,
       cards: this.cards,
-      buffs: this.buffs.map(item => item.serializeForUpdate())
+      buffs: this.buffs.map(item => item.serializeForUpdate()),
+      family: this.family,
+      head_side: this.head_side,
     }
   }
 }

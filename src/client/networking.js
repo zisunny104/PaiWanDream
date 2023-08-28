@@ -38,6 +38,14 @@ export const play = username => {
   socket.emit(Constants.MSG_TYPES.JOIN_GAME, username);
 }
 
+export const setFamily = family => {
+  socket.emit(Constants.MSG_TYPES.SET_FAMILY, family);
+}
+
+export const setHeadSide = head_side => {
+  socket.emit(Constants.MSG_TYPES.SET_HEAD_SIDE, head_side);
+}
+
 export const emitControl = data => {
   socket.emit(Constants.MSG_TYPES.INPUT, data);
 }

@@ -34,7 +34,9 @@ module.exports = Object.freeze({
     UPDATE: 2,
     INPUT: 3,
     GAME_OVER: 4,
-    GET_DELAY: 5
+    GET_DELAY: 5,
+    SET_FAMILY: 6,
+    SET_HEAD_SIDE: 7,
   },
 
 })
