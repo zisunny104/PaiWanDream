@@ -14,6 +14,14 @@ exports.getCookie = function getCookie(name) {
     if (parts.length == 2) return parts.pop().split(";").shift();
 }
 
+exports.clearAllCookie = function clearAllCookie() {
+    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    if (keys) {
+        for (var i = keys.length; i--;)
+            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    }
+}
+
 exports.getRandom = function getRandom(a, b) {
     let max = Math.max(a, b);
     let min = Math.min(a, b);
