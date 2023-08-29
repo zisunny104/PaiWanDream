@@ -8,7 +8,6 @@ const socket = io(`${socketProtocal}://${window.location.host}`, { reconnection:
 
 const disconnect_modal = document.querySelector('#disconnect-modal');
 const reconnect_button = document.querySelector('#reconnect-button');
-const over_reconnect_button = document.querySelector('#over-reconnect-button');
 
 const connectPromise = new Promise(resolve => {
   socket.on('connect', () => {
@@ -20,17 +19,14 @@ const connectPromise = new Promise(resolve => {
 export const connect = onGameOver => {
   connectPromise.then(() => {
     socket.on(Constants.MSG_TYPES.UPDATE, processGameUpdate);
-    socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver)
+    socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
     socket.on('disconnect', () => {
       disconnect_modal.classList.add('is-visible');
       console.log('Disconnected from server.');
       reconnect_button.onclick = () => {
         window.location.reload();
       };
-      over_reconnect_button.onclick = () => {
-        window.location.reload();
-      };
-    })
+    });
   })
 }
 

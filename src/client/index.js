@@ -32,6 +32,8 @@ const button = document.querySelector('#bead-button');
 const game_over = document.querySelector("#game-over");
 const over_username = document.querySelector("#over-username");
 const over_body = document.querySelector("#over-body");
+const over_reconnect_button = document.querySelector('#over-reconnect-button');
+
 
 
 const family_list = ["太陽種子", "太陽枝葉", "大地種子", "大地枝葉"];
@@ -92,6 +94,9 @@ function onGameOverdo() {
   game_canvas.classList.add(HIDDEN);
   game_control.classList.add(HIDDEN);
   game_over.classList.remove(HIDDEN);
+  over_reconnect_button.onclick = () => {
+    window.location.reload();
+  };
   footer.classList.remove(HIDDEN);
   document.querySelector('.ranking').classList.add('hidden');
   document.querySelector('.delay').classList.add('hidden');

@@ -3,8 +3,14 @@ import { getCurrentState } from './state';
 import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
 import Card from "../server/objects/card";
 
-const cnv = document.querySelector('#cnv')
-const ctx = cnv.getContext('2d')
+const cnv = document.querySelector('#cnv');
+const ctx = cnv.getContext('2d');
+
+const tempCnv = document.createElement('canvas');
+const tempCtx = tempCnv.getContext('2d');
+
+const cardCnv = document.createElement('canvas');
+const cardCtx = cardCnv.getContext('2d');
 
 const card_list = [
   {
@@ -445,15 +451,18 @@ function getCardByFileName(card_file_name) {
 }
 
 
-function setCanvasSize() {
+function setCanvasSize(cnv) {
   cnv.width = MAP_SIZE_W;
   cnv.height = MAP_SIZE_H;
   cnv.classList.add("sample");
 }
 
-setCanvasSize();
+setCanvasSize(cnv);
+setCanvasSize(tempCnv);
+setCanvasSize(cardCnv);
 
-window.addEventListener('resize', setCanvasSize)
+window.addEventListener('resize', setCanvasSize(cnv));
+window.addEventListener('resize', setCanvasSize(tempCnv));
 
 function render() {
   const { me, others, cards } = getCurrentState();
@@ -461,78 +470,76 @@ function render() {
     return;
   }
 
-  clearCanvas();//確保畫布背景為空
-  cards.map(renderCard.bind(null, me));
-  renderPlayer(me, me);
-  others.forEach(renderPlayer.bind(null, me));
+  tempCtx.clearRect(0, 0, tempCnv.width, tempCnv.height);
+  cards.map(renderCard.bind(me));
+  renderPlayer(me);
+  others.forEach(renderPlayer.bind(me));
+
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
+
+  ctx.drawImage(cardCnv, 0, 0);
+  ctx.drawImage(tempCnv, 0, 0);
+
+
   updateStandby(me, others);
   showCardList(me);
-
   showCardInfo(me);
 }
 
-function clearCanvas() {
-
-  ctx.save();
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.clearRect(0, 0, cnv.width, cnv.height);
-  ctx.restore();
-}
-
-function renderCard(me, card) {
+function renderCard(card) {
   const { x, y, w, h, file_name } = card;
   const img = new Image();
   img.src = "/assets/img/cards/" + file_name + ".svg";
-  ctx.save();
-  ctx.drawImage(
+  cardCtx.save();
+  cardCtx.drawImage(
     img,
     x, y,
     w, h
   )
-  ctx.restore();
+  cardCtx.restore();
 }
 
-function renderPlayer(me, player) {
-  const { x, y, username, cards, family, head_side } = player;
+function renderPlayer(player) {
+  const { x, y, username, family, head_side } = player;
   if (username == "debug") {
     return;
   }
 
   const img = new Image();
   img.src = "/assets/img/body/" + family + "_" + head_side + ".svg";
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.drawImage(
+  tempCtx.save();
+  tempCtx.translate(x, y);
+  tempCtx.drawImage(
     img,
     - PLAYER.RADUIS,
     - PLAYER.RADUIS,
     PLAYER.RADUIS * 2,
     PLAYER.RADUIS * 4
   )
-  ctx.restore();
+  tempCtx.restore();
 
-  ctx.fillStyle = 'white'
-  ctx.fillRect(
+  tempCtx.fillStyle = 'white'
+  tempCtx.fillRect(
     x - PLAYER.RADUIS,
     y - PLAYER.RADUIS - 8,
     PLAYER.RADUIS * 2,
     4
-  )
+  );
 
-  ctx.fillStyle = 'orange'
-  ctx.fillRect(
+  tempCtx.fillStyle = 'orange'
+  tempCtx.fillRect(
     x - PLAYER.RADUIS,
     y - PLAYER.RADUIS - 8,
     PLAYER.RADUIS * 2 * (player.hp / PLAYER.MAX_HP),
     4
-  )
+  );
 
-  ctx.strokeStyle = "brown";
-  ctx.fillStyle = 'white'
-  ctx.textAlign = 'center';
-  ctx.font = "30px Arial";
-  ctx.strokeText(player.username, x, y - PLAYER.RADUIS - 16);
-  ctx.fillText(player.username, x, y - PLAYER.RADUIS - 16);
+  tempCtx.strokeStyle = "brown";
+  tempCtx.fillStyle = 'white'
+  tempCtx.textAlign = 'center';
+  tempCtx.font = "30px Arial";
+  tempCtx.strokeText(player.username, x, y - PLAYER.RADUIS - 16);
+  tempCtx.fillText(player.username, x, y - PLAYER.RADUIS - 16);
 
   player.cards.map((card, i) => {
     const img = new Image();
@@ -543,7 +550,7 @@ function renderPlayer(me, player) {
       w = CARD.SIZE_B_W;
       h = CARD.SIZE_B_H;
     }
-    ctx.drawImage(
+    tempCtx.drawImage(
       img,
       x - PLAYER.RADUIS + i * 22,
       y + PLAYER.RADUIS + 16,
