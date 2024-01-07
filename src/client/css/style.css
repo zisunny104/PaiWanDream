@@ -4,6 +4,19 @@
     --dark: 199, 33%, 15%;
 }
 
+html,
+body {
+    touch-action: manipulation;
+}
+
+* {
+    user-select: none;
+    -webkit-user-select: none;
+    /* Chrome Safari */
+    -moz-user-select: none;
+    /* Firefox */
+}
+
 body {
     background-color: hsl(var(--sitebg));
 }
