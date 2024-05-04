@@ -2,7 +2,6 @@ const Item = require('./item')
 const Constants = require('../../shared/constants');
 const Bullet = require('./bullet');
 const xss = require('xss');
-const { setCookie } = require('../../shared/utils');
 
 Array.prototype.remove = function (value) {
   this.splice(this.indexOf(value), 1);

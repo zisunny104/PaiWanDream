@@ -3,7 +3,7 @@ import { emitControl } from "./networking";
 const keys = document.querySelectorAll("[data-key]");
 
 keys.forEach((key) => {
-  key.addEventListener("click", () => {
+  key.addEventListener("pointerdown", () => {
     key.classList.add("pressed");
     var d = true;
     if (key.id == "move-left" || key.id == "move-top") {
@@ -13,13 +13,15 @@ keys.forEach((key) => {
       action: key.id,
       data: d,
     })
-    setTimeout(() => {
-      key.classList.remove("pressed");
-      emitControl({
-        action: key.id,
-        data: 0
-      })
-    }, 50);
+
+  });
+
+  key.addEventListener("pointerup", () => {
+    key.classList.remove("pressed");
+    emitControl({
+      action: key.id,
+      data: 0
+    })
   });
 });
 

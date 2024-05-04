@@ -511,35 +511,40 @@ function renderPlayer(player) {
   tempCtx.translate(x, y);
   tempCtx.drawImage(
     img,
-    - PLAYER.RADUIS,
-    - PLAYER.RADUIS,
-    PLAYER.RADUIS * 2,
-    PLAYER.RADUIS * 4
+    - PLAYER.SIZE_W / 2,
+    - PLAYER.SIZE_H / 2,
+    PLAYER.SIZE_W,
+    PLAYER.SIZE_H,
   )
   tempCtx.restore();
 
-  tempCtx.fillStyle = 'white'
+  tempCtx.fillStyle = 'white';
   tempCtx.fillRect(
-    x - PLAYER.RADUIS,
-    y - PLAYER.RADUIS - 8,
-    PLAYER.RADUIS * 2,
-    4
+    x - PLAYER.SIZE_W / 2,
+    y - PLAYER.SIZE_H / 2 - 8,
+    (PLAYER.SIZE_W + 5),
+    6
   );
 
-  tempCtx.fillStyle = 'orange'
+  var hpColor = "orange";
+  if (player.hp < 10) {
+    hpColor = "red";
+  }
+  tempCtx.fillStyle = hpColor;
   tempCtx.fillRect(
-    x - PLAYER.RADUIS,
-    y - PLAYER.RADUIS - 8,
-    PLAYER.RADUIS * 2 * (player.hp / PLAYER.MAX_HP),
-    4
+    x - PLAYER.SIZE_W / 2,
+    y - PLAYER.SIZE_H / 2 - 8,
+    (PLAYER.SIZE_W + 5) * (player.hp / PLAYER.MAX_HP),
+    6
   );
 
   tempCtx.strokeStyle = "brown";
-  tempCtx.fillStyle = 'white'
-  tempCtx.textAlign = 'center';
-  tempCtx.font = "30px Arial";
-  tempCtx.strokeText(player.username, x, y - PLAYER.RADUIS - 16);
-  tempCtx.fillText(player.username, x, y - PLAYER.RADUIS - 16);
+  tempCtx.lineWidth = 4;
+  tempCtx.fillStyle = "white";
+  tempCtx.textAlign = "center";
+  tempCtx.font = "30px HunInn";
+  tempCtx.strokeText(player.username, x, y - PLAYER.SIZE_H / 2 - 16);
+  tempCtx.fillText(player.username, x, y - PLAYER.SIZE_H / 2 - 16);
 
   player.cards.map((card, i) => {
     const img = new Image();
@@ -550,10 +555,11 @@ function renderPlayer(player) {
       w = CARD.SIZE_B_W;
       h = CARD.SIZE_B_H;
     }
+    var r = Math.floor(i / 6);
     tempCtx.drawImage(
       img,
-      x - PLAYER.RADUIS + i * 22,
-      y + PLAYER.RADUIS + 16,
+      x - PLAYER.SIZE_W / 1.7 + (i - r * 6.1) * 22,
+      y + (PLAYER.SIZE_H / 2 * 0.3) + r * (CARD.SIZE_H / 10.7),
       w / 10, h / 10
     );
   });

@@ -12,9 +12,9 @@ class Prop extends Item {
     });
 
     this.isOver = false;
-    // 什么类型的buff
+    // 什麼類型的buff
     this.type = type;
-    // 持续10秒
+    // 持續10秒
     this.time = 10;
   }
 

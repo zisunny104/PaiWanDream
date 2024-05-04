@@ -1,5 +1,5 @@
 import { connect, play, getDelay, setHeadSide, setFamily } from './networking';
-import { setCookie, getCookie, getRandom, sleep } from '../shared/utils';
+import { getRandom, sleep } from '../shared/utils';
 import { downloadAssets } from './asset';
 import { getCurrentState } from './state';
 
@@ -39,11 +39,12 @@ const over_reconnect_button = document.querySelector('#over-reconnect-button');
 const family_list = ["太陽種子", "太陽枝葉", "大地種子", "大地枝葉"];
 
 var username = "匿名玩家";
-var family = "大地枝葉";
+var family = "大地種子";
 var head_side = "左";
 
 const HIDDEN = "hidden";
 
+/*重置登入狀態*/
 Promise.all([
   connect(gameOver),
   downloadAssets()
@@ -54,16 +55,14 @@ Promise.all([
   play_button.onclick = () => {
     username = username_input.value;
     username = username.replace(/\s*/g, '');
-    family = getCookie('family');
     if (username === '') {
       alert('請輸入名稱!');
       return;
     }
-    if (family === "預設氏族") {
+    if (family === "") {
       alert('請擲骰選擇氏族!');
       return;
     }
-    setCookie('username', username);
     play(username);
     setFamily(family);
     setHeadSide(head_side);
@@ -74,7 +73,7 @@ Promise.all([
     footer.classList.add(HIDDEN);//關閉底部
     game_canvas.classList.remove(HIDDEN);//開啟遊戲畫面
 
-    over_username.innerHTML = getCookie('username');
+    over_username.innerHTML = username;
     over_body.src = "/assets/img/body/" + family + "_" + head_side + ".svg";
 
     startRendering();
@@ -87,7 +86,7 @@ function setUserTop() {
   const userhead_top = document.querySelector('#userhead-top');
   const username_top = document.querySelector('#username-top');
   userhead_top.src = "/assets/img/heads/" + family + "_" + head_side + ".svg";
-  username_top.innerHTML = getCookie('username');
+  username_top.innerHTML = username;
 }
 
 function onGameOverdo() {
@@ -112,7 +111,7 @@ function gameOver() {
 function randBead() {
   bead.src = "/assets/img/beads/琉璃珠-" + getRandom(1, 5) + ".png";
   family = family_list[getRandom(0, 3)];
-  setCookie("family", family);
+  //setCookie("family", family);
   family_img.src = "/assets/img/cards/氏族-" + family + ".svg";
   head_l_img.src = "/assets/img/heads/" + family + "_左.svg";
   head_r_img.src = "/assets/img/heads/" + family + "_右.svg";
@@ -141,19 +140,13 @@ async function switchFamily() {
     head_l_button.disabled = "disabled";
     head_switch.classList.add(HIDDEN);
     head_side = "左";
-    setCookie('head_side', head_side);
   }
   head_r_button.onclick = () => {
     head_l_button.classList.add(HIDDEN);
     head_r_button.disabled = "disabled";
     head_switch.classList.add(HIDDEN);
     head_side = "右";
-    setCookie('head_side', head_side);
   }
-  /*document.querySelector('#step-fami').scrollIntoView({
-    behavior: 'smooth'
-  });
-  username_input.focus();*/
 }
 
 function getCardByFileName(file_name) {

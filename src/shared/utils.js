@@ -1,4 +1,4 @@
-exports.setCookie = function setCookie(cookieName, cookieValue, expiryDate) {
+/*exports.setCookie = function setCookie(cookieName, cookieValue, expiryDate) {
     var d = new Date();
     d.setTime(d.getTime() + (expiryDate * 24 * 60 * 60 * 1000));
     var expires = "; expires=" + d.toUTCString();
@@ -20,7 +20,7 @@ exports.clearAllCookie = function clearAllCookie() {
         for (var i = keys.length; i--;)
             document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
     }
-}
+}*/
 
 exports.getRandom = function getRandom(a, b) {
     let max = Math.max(a, b);

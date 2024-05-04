@@ -20,12 +20,16 @@ export const connect = onGameOver => {
   connectPromise.then(() => {
     socket.on(Constants.MSG_TYPES.UPDATE, processGameUpdate);
     socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
-    socket.on('disconnect', () => {
+    socket.on("disconnect", () => {
       disconnect_modal.classList.add('is-visible');
       console.log('Disconnected from server.');
       reconnect_button.onclick = () => {
         window.location.reload();
       };
+      const lastToDisconnect = io.of("/").sockets.size === 0;
+      if (lastToDisconnect) {
+        gc();
+      }
     });
   })
 }
@@ -35,10 +39,16 @@ export const play = username => {
 }
 
 export const setFamily = family => {
+  if (family === "") {
+    family = "大地種子";
+  }
   socket.emit(Constants.MSG_TYPES.SET_FAMILY, family);
 }
 
 export const setHeadSide = head_side => {
+  if (head_side === "") {
+    head_side = "左";
+  }
   socket.emit(Constants.MSG_TYPES.SET_HEAD_SIDE, head_side);
 }
 
@@ -54,6 +64,6 @@ export const getDelay = dom => {
   }, 1000);
   socket.on(Constants.MSG_TYPES.GET_DELAY, () => {
     let now = new Date().getTime();
-    dom.innerHTML = (now - prev) / 2 + 'ms'
+    dom.innerHTML = (now - prev) / 2 + 'ms';
   })
 }

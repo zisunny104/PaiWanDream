@@ -81,7 +81,7 @@ const card_list = [
     "type": "能力",
     "card_name": "獲得榮耀-古代家名",
     "raw_name": "pacikel",
-    "description": "排灣族新生兒誕生會依事件或親人功績來創名，亦有可能取父親或母親氏族某 位快被遺忘的祖先名字，用以傳承該名的歷史典故，這造成了各家都會專屬的獨特名，而有雙名的族人也不少見。家名(姓氏)的傳承則更為複雜，但也大概會依創造、尋回或埋下胎盤的歸屬家屋等規則，種子家庭則必定會是延續宗家姓氏或名字。",
+    "description": "排灣族新生兒誕生會依事件或親人功績來創名，亦有可能取父親或母親氏族某位快被遺忘的祖先名字，用以傳承該名的歷史典故，這造成了各家都會專屬的獨特名，而有雙名的族人也不少見。家名(姓氏)的傳承則更為複雜，但也大概會依創造、尋回或埋下胎盤的歸屬家屋等規則，種子家庭則必定會是延續宗家姓氏或名字。",
     "file_name": "能力-古代家名"
   },
   {
@@ -585,7 +585,7 @@ class Game {
         let card = cards[i];
         let player = players[j];
 
-        if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + Math.min(card.w, card.h) / 2) {
+        if (player.distanceTo(card) <= Constants.PLAYER.RADUIS + Math.min(card.w, card.h)) {// 除2?
           //cards.isOver = true;
           player.catchCard(card);
           break;

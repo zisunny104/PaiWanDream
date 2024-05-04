@@ -15,11 +15,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet" />
+
+
 </head>
 
 <body>
   <!--遊戲畫面-->
-  <div id="game-canvas" class="sample desktop-:u-hidden hidden" style="background-image:url('/assets/img/play.png')">
+  <div id="game-canvas" class="sample tablet-:u-hidden hidden" style="background-image:url('/assets/img/play.png')">
     <canvas id="cnv" class="">您的瀏覽器不支援畫布功能</canvas>
     <div class="ts-grid " style="width: 100%; position:absolute; bottom: 0; ">
       <div class="column is-4-wide"></div>
@@ -53,7 +55,7 @@
 
   <!--玩家頁面-->
 
-  <div id="game-control" class="ts-container is-very-narrow tablet+:u-hidden hidden"
+  <div id="game-control" class="ts-container is-very-narrow desktop+:u-hidden hidden"
     style="height: 100%; overflow: hidden;">
     <div class="ts-app-layout is-vertical">
       <div class="cell">
@@ -197,7 +199,9 @@
         </div>
       </div>
       <!--放置內容(卡牌圖片與說明)-->
-      <button id="over-reconnect-button" class="ts-button is-fluid is-outlined u-top-spaced-large">重新加入探索</button>
+      <p></p>
+      <button id="over-reconnect-button" class="ts-button u-top-spaced-large is-large">重新加入探索</button>
+      <p></p>
     </div>
   </div>
   <!--遊戲結束-->
@@ -273,7 +277,7 @@
 
 
         <div class="ts-content">
-          <button id="bead-button" class="ts-button is-circular is-outlined">擲骰</button>
+          <button id="bead-button" class="ts-button is-circular is-outlined is-large">擲骰</button>
         </div>
       </div>
     </div>
@@ -286,7 +290,7 @@
         </div>
         <div class="ts-content ts-header">進入夢境收集卡牌</div>
       </div>
-      <button id="play-button" class="ts-button is-circular">開始探索</button>
+      <button id="play-button" class="ts-button is-circular is-large">開始探索</button>
     </div>
   </div>
   <div class="ts-content"></div>
